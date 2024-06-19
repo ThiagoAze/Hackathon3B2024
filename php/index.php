@@ -27,17 +27,12 @@
 
 <body>
     <?php
-        if (isset($_GET['param'])) {
-            if ($_GET['param'] == "index"){
-                $pasta = "listar";
-                $arquivo = "vacina";
-            } else {
-                $page = explode("/", $_GET['param']);
-                $pasta = $page[0] ?? NULL;
-                $arquivo = $page[1] ?? NULL;
-                $id = $page[2] ?? NULL;
-            }
-                
+        if (isset($_GET['param'])) {            
+            $page = explode("/", $_GET['param']);
+            $pasta = $page[0] ?? NULL;
+            $arquivo = $page[1] ?? NULL;
+            $id = $page[2] ?? NULL;
+            
             $page = "$pasta/$arquivo";
                 
             require "header.php";
@@ -48,6 +43,8 @@
                 require "pagina/erro.php";
             }
             require "footer.php";
+        } else {
+            require "validar/listaVacina.php";
         }
     ?>
 
