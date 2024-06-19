@@ -1,0 +1,33 @@
+.form-idoso{
+    width: 1000px;
+    margin: 50px auto;
+    box-shadow: 0 0 20px #ccc;
+    box-sizing: border-box;
+    padding: 30px;
+}
+.form-idoso h1{
+    text-align: center;
+    margin-bottom: 30px;
+}
+.logo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-size: 40px;
+    margin: 30px 0 30px 0;
+}
+.cancelar {
+    float: right;
+    background-color: #0000;
+    color: red;
+    border: 1px solid;
+    padding: 15px 20px 15px 20px;
+    border-radius: 5px;
+}
+.confirmar{
+    background-color: green;
+    color: white;
+    border: 1px solid;
+    padding: 15px 20px 15px 20px;
+    border-radius: 5px;
+}
