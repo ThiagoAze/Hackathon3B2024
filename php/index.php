@@ -4,9 +4,9 @@
     session_start();
 ?>
 
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,17 +28,12 @@
 
 <body>
     <?php
-        if (isset($_GET['param'])) {
-            if ($_GET['param'] == "index"){
-                $pasta = "listar";
-                $arquivo = "vacina";
-            } else {
-                $page = explode("/", $_GET['param']);
-                $pasta = $page[0] ?? NULL;
-                $arquivo = $page[1] ?? NULL;
-                $id = $page[2] ?? NULL;
-            }
-                
+        if (isset($_GET['param'])) {            
+            $page = explode("/", $_GET['param']);
+            $pasta = $page[0] ?? NULL;
+            $arquivo = $page[1] ?? NULL;
+            $id = $page[2] ?? NULL;
+            
             $page = "$pasta/$arquivo";
                 
             require "header.php";
@@ -49,6 +44,8 @@
                 require "pagina/erro.php";
             }
             require "footer.php";
+        } else {
+            require "validar/listaVacina.php";
         }
     ?>
 
@@ -57,5 +54,4 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
 </body>
-
 </html>
