@@ -24,7 +24,7 @@
 
         h1 {
             text-align: center;
-            color: #333;
+            color: red;
         }
 
         .lembretes {
@@ -65,7 +65,7 @@
 
 <body>
     <div class="container">
-        <h1>Avisos de Vacinas</h1>
+        <h1>Avisos e Lembretes</h1>
 
         <!-- Lista  -->
         <div class="lembretes">
