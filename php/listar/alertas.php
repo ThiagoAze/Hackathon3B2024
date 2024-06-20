@@ -1,78 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avisos de Vacinas</title>
-    <link rel="stylesheet" href="css/alertas.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: red;
-        }
-
-        .lembretes {
-            margin-top: 20px;
-        }
-
-        .lembrete {
-            position: relative;
-            background-color: #f9f9f9;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .lembrete h3 {
-            margin-top: 0;
-            color: #333;
-            font-size: 1.2em;
-        }
-
-        .lembrete .info {
-            float: right;
-            font-size: 0.9em;
-            color: #666;
-        }
-
-        .lembrete p {
-            margin-bottom: 5px;
-            color: #666;
-        }
-
-        .lembrete p strong {
-            color: #333;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-            }
-        }
-    </style>
-</head>
-
-<body>
     <div class="container">
-        <h1>Avisos e Lembretes</h1>
+        <h1 class="aviso">Avisos e Lembretes</h1>
 
         <!-- Lista  -->
         <div class="lembretes">
@@ -134,6 +62,3 @@
             ?>
         </div>
     </div>
-</body>
-
-</html>
