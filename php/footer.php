@@ -9,7 +9,7 @@
         <p>Thiago Azevedo</p>
     </div>
     <nav class="menu-footer">
-        <h3>Menu</h3>
+        <h3>Menu:</h3>
         <ul>
             <li>
                 <a href="listar/vacina">Calendário de vacinação</a>

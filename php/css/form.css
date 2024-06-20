@@ -1,3 +1,10 @@
+.logo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    font-size: 40px;
+    margin: 30px 0 30px 0;
+}
 .form-idoso{
     width: 1000px;
     margin: 50px auto;
@@ -9,13 +16,12 @@
     text-align: center;
     margin-bottom: 30px;
 }
-.logo {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    font-size: 40px;
-    margin: 30px 0 30px 0;
+.form-idoso h2{
+    text-align: center;
 }
+.acompanhante {
+    text-align: center;
+  }
 .cancelar {
     float: right;
     background-color: #0000;
@@ -30,4 +36,7 @@
     border: 1px solid;
     padding: 15px 20px 15px 20px;
     border-radius: 5px;
+}
+label{
+    font-size: 1.2em;
 }
