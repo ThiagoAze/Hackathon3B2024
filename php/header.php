@@ -1,7 +1,7 @@
 <header>
     <nav>
         <ul>
-            <li><img src="" alt="logo">Vacinet</li>
+            <li><a href="#">Vacinet</a></li>
             <li>
                 <a href="listar/vacina">Calendário de vacinação</a>
             </li>

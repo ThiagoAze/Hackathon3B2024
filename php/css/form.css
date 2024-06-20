@@ -14,15 +14,23 @@
 }
 .form-idoso h1{
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 .form-idoso h2{
     text-align: center;
+    margin-bottom: 30px;
 }
 .acompanhante {
     text-align: center;
+    font-size: 1.3em;
   }
-.cancelar {
+  input[type=radio], input[type=checkbox]  {
+    border: 0px;
+    width: 26px;
+    height: 19px;
+    margin: 5px;
+}
+.botao-cancelar, .botao-voltar {
     float: right;
     background-color: #0000;
     color: red;
@@ -30,7 +38,7 @@
     padding: 15px 20px 15px 20px;
     border-radius: 5px;
 }
-.confirmar{
+.botao-continuar, .botao-confirmar{
     background-color: green;
     color: white;
     border: 1px solid;

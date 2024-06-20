@@ -12,6 +12,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["SCRIPT_NAME"]; ?>">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/free-emergency-call-2199806-1833385.png" type="image/x-icon">
     <!-- Estilização -->
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -24,7 +26,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <title>ADMIN</title>
+    <title>Vacinet</title>
 </head>
 
 <body>
