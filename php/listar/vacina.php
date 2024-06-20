@@ -4,6 +4,8 @@ $vacinas = $_SESSION['vacinas'] ?? [];
 $filtrosUsando = $_SESSION['filtros'] ?? NULL;
 $buscaUsando = $_SESSION['busca'] ?? NULL;
 
+
+
 ?>
 <h2>Confira as próximas vacinas</h2>
 <div class="row">
@@ -43,16 +45,19 @@ foreach ($vacinas as $vacina) {
 ?>
 <div class="vacina">
     <h4><?= $vacina['nome'] ?></h4>
+  
     <p>Idade: <?= $vacina['idade_max'], " - ", $vacina['idade_min'] ?></p>
     <p>Data de Início: <?= $vacina['data_inicio'] ?></p>
     <p>Data limite: <?= $vacina['data_limite'] ?></p>
     <p>Doenças evitadas: <?= $vacina['doenca'] ?></p>
     <h5>Observações: </h5>
     <p><?= $vacina['observacao'] ?></p>
+  
     <form action="cadastrar/idoso.php" method="get">
         <input type="text" name="id" value="<?=$vacina['id']?>" style="visibility:hidden">
         <button type="submit">Agendar vacinação</button>
     </form>
+
 </div>
 <br>
 <?php } ?>

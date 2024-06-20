@@ -25,4 +25,5 @@
     $_SESSION['filtros'] = $filtrosUsando;
     $_SESSION['busca'] = $buscaUsando;
     echo "<script>location.href='listar/vacina';</script>";
+
 ?>
