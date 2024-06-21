@@ -1,7 +1,7 @@
 <?php
     //Usar Ajax para coletar automaticamente os dados(com a API node) caso o CPF tenha 11 caracteres exista
     //Se o CPF estiver cadastrado, buscar todos os dados mais o ID
-
+    
 ?>
 
 <div class="form-idoso">
