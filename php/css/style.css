@@ -69,6 +69,7 @@ footer{
 }
 .icone-footer i:hover{
     text-decoration: none;
+    color: #3a5470;
 }
 .social ul{
     list-style: none;
