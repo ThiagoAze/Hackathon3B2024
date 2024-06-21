@@ -3,6 +3,8 @@ package vacinet.dao;
 import vacinet.model.Agente;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AgenteDao {
     private Connection connection;
@@ -32,6 +34,7 @@ public class AgenteDao {
         ps.setString(6, agente.getSenha());
         ps.execute();
     }
+
     /*
     public void confirmarLogin(String cpf, String senha) throws SQLException {
         String sql = "Select * from agente where cpf = ? and senha = ?";

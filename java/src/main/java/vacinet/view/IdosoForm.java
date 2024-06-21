@@ -74,7 +74,8 @@ public class IdosoForm extends JFrame{
         constraints.gridy = 2;
         painelEntrada.add(labelCpf, constraints);
 
-        campoCpf = new JTextField(20);
+        campoCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+        campoCpf.setSize(10, 5);
         constraints.gridx = 1;
         constraints.gridy = 2;
         painelEntrada.add(campoCpf, constraints);
@@ -84,7 +85,8 @@ public class IdosoForm extends JFrame{
         constraints.gridy = 3;
         painelEntrada.add(labelDataNascimento, constraints);
 
-        campoDataNascimento = new JFormattedTextField(new MaskFormatter("########"));
+        campoDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        campoCpf.setSize(10, 5);
         constraints.gridx = 1;
         constraints.gridy = 3;
         painelEntrada.add(campoDataNascimento, constraints);
@@ -94,7 +96,8 @@ public class IdosoForm extends JFrame{
         constraints.gridy = 4;
         painelEntrada.add(labelFone, constraints);
 
-        campoFone = new JTextField(20);
+        campoFone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
+        campoCpf.setSize(10, 5);
         constraints.gridx = 1;
         constraints.gridy = 4;
         painelEntrada.add(campoFone, constraints);
@@ -202,7 +205,7 @@ public class IdosoForm extends JFrame{
     }
     private void validarCpf(int valor) {
         try {
-            if (valor != 8) throw new RuntimeException("O campo cpf deve ter até 8 caracteres");
+            if (valor != 11) throw new RuntimeException("O campo cpf deve ter até 8 caracteres");
         } catch (Exception e){
             permitirCadastro = false;
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -221,6 +224,7 @@ public class IdosoForm extends JFrame{
 
     private LocalDate validacaoData(String valor, String CAMPO){
         try {
+            System.out.println(valor);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             if (valor.isEmpty()) throw new RuntimeException("Campo %s não pode ser vazio".formatted(CAMPO));
             if (valor.isBlank()) throw new RuntimeException("Campo %s não pode ser espaço".formatted(CAMPO));
@@ -234,19 +238,22 @@ public class IdosoForm extends JFrame{
         }
     }
 
-    private String formatarCpf(String valor) {
-        var dados = valor.replaceAll(".","");
-        return dados.replaceAll("-","");
+    public String formatarNumeros(String valor) {
+        var valorFormatado = valor.replaceAll("[^0-9]", "");
+        System.out.println(valorFormatado);
+
+        return valor;
     }
 
     private void cadastrar() {
         permitirCadastro = true;
         validacaoStrings(campoNome.getText(), "nome");
         validacaoStrings(campoCpf.getText(), "CPF");
-        validarCpf(formatarCpf(campoCpf.getText()).length());
+        var cpfBanco = formatarNumeros(campoCpf.getText());
         var dataBanco = validacaoData(campoDataNascimento.getText(), "data de nascimento");
         validacaoStrings(campoEmail.getText(), "email");
-        validacaoStrings(campoFone.getText(), "fone");
+        validacaoStrings(campoFone.getText(), "telefone");
+        var foneBanco = formatarNumeros(campoFone.getText());
         validacaoStrings(campoSenha.getText(), "senha");
         validarSenha(campoSenha.getText());
         if (permitirCadastro) {

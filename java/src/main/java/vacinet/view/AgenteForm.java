@@ -1,9 +1,13 @@
 package vacinet.view;
 
+import vacinet.model.Agente;
 import vacinet.service.AgenteService;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -15,11 +19,11 @@ public class AgenteForm extends JFrame {
     private JLabel labelNome;
     private JTextField campoNome;
     private JLabel labelCpf;
-    private JTextField campoCpf;
+    private JFormattedTextField campoCpf;
     private JLabel labelDataNascimento;
-    private JTextField campoDataNascimento;
+    private JFormattedTextField campoDataNascimento;
     private JLabel labelFone;
-    private JTextField campoFone;
+    private JFormattedTextField campoFone;
     private JLabel labelEmail;
     private JTextField campoEmail;
     private JLabel labelSenha;
@@ -28,7 +32,7 @@ public class AgenteForm extends JFrame {
     private JButton botaoCancelar;
     private JButton botaoCadastrar;
 
-    public AgenteForm() {
+    public AgenteForm() throws ParseException {
         service = new AgenteService();
 
         setTitle("Cadastro Agente");
@@ -59,7 +63,7 @@ public class AgenteForm extends JFrame {
         constraints.gridy = 2;
         painelEntrada.add(labelCpf, constraints);
 
-        campoCpf = new JTextField(20);
+        campoCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
         constraints.gridx = 1;
         constraints.gridy = 2;
         painelEntrada.add(campoCpf, constraints);
@@ -69,7 +73,7 @@ public class AgenteForm extends JFrame {
         constraints.gridy = 3;
         painelEntrada.add(labelDataNascimento, constraints);
 
-        campoDataNascimento = new JTextField(20);
+        campoDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
         constraints.gridx = 1;
         constraints.gridy = 3;
         painelEntrada.add(campoDataNascimento, constraints);
@@ -79,7 +83,7 @@ public class AgenteForm extends JFrame {
         constraints.gridy = 4;
         painelEntrada.add(labelFone, constraints);
 
-        campoFone = new JTextField(20);
+        campoFone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
         constraints.gridx = 1;
         constraints.gridy = 4;
         painelEntrada.add(campoFone, constraints);
@@ -116,7 +120,7 @@ public class AgenteForm extends JFrame {
         painelEntrada.add(botaoCancelar, constraints);
 
         botaoCadastrar = new JButton("Cadastrar");
-        botaoCadastrar.addActionListener(e -> cadastrar());
+        botaoCadastrar.addActionListener(e -> salvar());
         constraints.gridx = 1;
         constraints.gridy = 8;
         painelEntrada.add(botaoCadastrar, constraints);
@@ -137,7 +141,7 @@ public class AgenteForm extends JFrame {
     }
     private void validarCpf(int valor) {
         try {
-            if (valor != 8) throw new RuntimeException("O campo cpf deve ter até 8 caracteres");
+            if (valor != 11) throw new RuntimeException("O campo cpf deve ter até 8 caracteres");
         } catch (Exception e){
             permitirCadastro = false;
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -169,22 +173,36 @@ public class AgenteForm extends JFrame {
         }
     }
 
-    private String formatarCpf(String valor) {
+    public String formatarNumeros(String valor) {
+        var valorFormatado = valor.replaceAll("[^0-9]", "");
+        System.out.println(valorFormatado);
+
         return valor;
     }
 
-    private void cadastrar() {
+    private void salvar() {
         permitirCadastro = true;
         validacaoStrings(campoNome.getText(), "nome");
         validacaoStrings(campoCpf.getText(), "CPF");
-        validarCpf(formatarCpf(campoCpf.getText()).length());
+        var cpfBanco = formatarNumeros(campoCpf.getText());
         var dataBanco = validacaoData(campoDataNascimento.getText(), "data de nascimento");
         validacaoStrings(campoEmail.getText(), "email");
         validacaoStrings(campoFone.getText(), "fone");
+        var foneBanco = formatarNumeros(campoFone.getText());
         validacaoStrings(campoSenha.getText(), "senha");
         validarSenha(campoSenha.getText());
         if (permitirCadastro) {
             JOptionPane.showMessageDialog(this, "cadastrado");
+            try {
+                var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                Agente agente = new Agente(campoNome.getText(), cpfBanco, Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), campoEmail.getText(), foneBanco, campoSenha.getText());
+                agente.setId(0);
+                setVisible(false);
+                var form = new AgenteView(/*agente*/);
+                form.setVisible(true);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

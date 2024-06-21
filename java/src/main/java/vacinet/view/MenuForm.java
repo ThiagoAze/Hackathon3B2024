@@ -2,6 +2,7 @@ package vacinet.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.ParseException;
 
 public class MenuForm extends JFrame{
     private JButton botaoUsuario;
@@ -44,13 +45,23 @@ public class MenuForm extends JFrame{
     }
     private void irFormIdoso() {
         setVisible(false);
-        var form = new IdosoForm();
+        IdosoForm form = null;
+        try {
+            form = new IdosoForm();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         form.setVisible(true);
     }
 
     private void irFormAgente() {
         setVisible(false);
-        var form = new AgenteForm();
+        AgenteForm form = null;
+        try {
+            form = new AgenteForm();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         form.setVisible(true);
     }
 }
