@@ -10,10 +10,8 @@ $buscaUsando = $_SESSION['busca'] ?? NULL;
 <h2>Confira as próximas vacinas</h2>
 <div class="row">
     <div class="col-3">
-        <div class="breadcrumb">
-            <?php
-            // buscar breadcrubm com node
-            ?>
+        <div class="breadcrumb-vacina">
+            <a href="validar/listaVacina">Calendário de vacinação</a>
         </div>
     </div>
     <div class="col-3">

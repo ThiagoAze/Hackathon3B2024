@@ -29,7 +29,7 @@ public class AgenteDao {
         ps.setDate(3, agente.getDataNascimento());
         ps.setString(4, agente.getFone());
         ps.setString(5, agente.getEmail());
-        ps.setString(5, agente.getSenha());
+        ps.setString(6, agente.getSenha());
         ps.execute();
     }
     /*

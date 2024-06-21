@@ -43,9 +43,9 @@ public class MenuForm extends JFrame{
 
     }
     private void irFormIdoso() {
-        //setVisible(false);
-        //var form = new IdosoForm();
-        //form.setVisible(true);
+        setVisible(false);
+        var form = new IdosoForm();
+        form.setVisible(true);
     }
 
     private void irFormAgente() {
