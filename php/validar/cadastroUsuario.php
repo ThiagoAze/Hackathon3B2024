@@ -8,7 +8,7 @@
     $generoIdoso = $_POST['genero-idoso'] ?? NULL;
     $emailIdoso = $_POST['email-idoso'] ?? NULL;
     $cepIdoso = $_POST['cep-idoso'] ?? NULL;
-    $enderecoIdoso = $_POST['endereco-idoso'] ?? NULL;
+    $ruaIdoso = $_POST['rua-idoso'] ?? NULL;
     $bairroIdoso = $_POST['bairro-idoso'] ?? NULL;
     $estadoIdoso = $_POST['estado-idoso'] ?? NULL;
     $numeroIdoso = $_POST['numero-idoso'] ?? NULL;

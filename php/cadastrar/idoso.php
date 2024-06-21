@@ -77,8 +77,8 @@
                 <input type="text" name="cep-idoso" require id="cep-idoso" class="form-control" placeholder="99999-999">
             </div>
             <div class="col">
-                <label for="endereco-idoso">Endereço:</label>
-                <input type="text" name="endereco-idoso" require id="endereco-idoso" class="form-control" placeholder="Digite o nome da sua rua">
+                <label for="rua-idoso">Endereço:</label>
+                <input type="text" name="rua-idoso" require id="rua-idoso" class="form-control" placeholder="Digite o nome da sua rua">
             </div>
         </div>
         <br>

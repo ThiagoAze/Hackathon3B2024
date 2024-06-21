@@ -53,12 +53,38 @@ footer{
 .desenvolvedores{
     text-align: center;
 }
+.menu-footer{
+    text-align: center;
+}
 .social {
     padding: 20px;
     text-align: center;
-  }
-/*Alerta*/
+    text-decoration: none;
+    align-content: center;
+}
+.icone-footer{
+    font-size: 3em;
+    margin: 1px 20px;
+    text-decoration: none;
+}
+.icone-footer i:hover{
+    text-decoration: none;
+}
+.social ul{
+    list-style: none;
+    display: flex;
+}
+.fa-whatsapp{
+    color: rgb(30, 48, 80);
+}
+.fa-facebook{
+    color: rgb(30, 48, 80);
+}
+.fa-instagram{
+    color: rgb(30, 48, 80);
+}
 
+/* Alerta */
 .container {
     width: 80%;
     margin: 20px auto;

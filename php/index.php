@@ -14,12 +14,14 @@
     <base href="<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["SCRIPT_NAME"]; ?>">
     <!-- Favicon -->
     <link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/free-emergency-call-2199806-1833385.png" type="image/x-icon">
+    <!-- Ícones -->
+    <script src="https://kit.fontawesome.com/b82f5ae24a.js" crossorigin="anonymous"></script>
     <!-- JavaScript -->
     <script src="js/jquery.inputmask.min.js"></script>
     <script src="js/sweetalert2.min.js"></script>
     <!-- Estilização -->
     <link rel="stylesheet" href="./css/normalize.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="./css/form.css">
     <link rel="stylesheet" href="./css/alerta.css">
     <link rel="stylesheet" href="css/sweetalert2.min.css">
