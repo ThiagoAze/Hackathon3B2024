@@ -8,7 +8,7 @@
     <div class="logo">Vacinet</div>
     <h1>Registre-se para uma maior qualidade de vida</h1>
 
-    <form action="validar/cadastroUsuario" method="POST">
+    <form action="cadastrar/agendamento" method="POST">
 
         <div class="row">
             <div class="col">
@@ -36,7 +36,6 @@
                 <input type="text" name="fone-idoso" require id="fone-idoso" class="form-control" placeholder="(99)99999-9999">
             </div>
 
-            
             <div class="col">
                 <label for="genero-idoso">Gênero</label>
                 <select name="genero-idoso" require id="genero" class="form-select" aria-label="Default select example">
@@ -61,9 +60,9 @@
                 <div class="acompanhante">
                     <label for="acompanhante-idoso">Precisa de acompanhante?</label>
                     <br>
-                    <input type="radio" name="acompanhante-idoso" require id="acompanhante-idoso-sim"  value="sim" >Sim
+                    <input type="radio" name="acompanhante-idoso"  onclick="verAcompanhante()" id="acompanhante-idoso"  value="sim" >Sim
+                    <input type="radio" name="acompanhante-idoso"  onclick="verAcompanhante()" id="acompanhante-idoso"  value="nao" >Não
                     <br>
-                    <input type="radio" name="acompanhante-idoso" require id="acompanhante-idoso-nao"  value="nao" >Não
                 </div>
             </div>
         </div>
@@ -109,7 +108,7 @@
 
         <hr>
 
-        <div class="opc-acompanhante"> 
+        <div id="info-acomp"> 
             <h2>Credenciais do acompanhante</h2>
             <div class="row">
                 <div class="col">

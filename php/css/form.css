@@ -23,8 +23,8 @@
 .acompanhante {
     text-align: center;
     font-size: 1.3em;
-  }
-  input[type=radio], input[type=checkbox]  {
+}
+input[type=radio], input[type=checkbox]  {
     border: 0px;
     width: 26px;
     height: 19px;
