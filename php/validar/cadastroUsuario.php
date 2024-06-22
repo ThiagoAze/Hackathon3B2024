@@ -3,7 +3,7 @@
     //Informações do idoso 
     $nomeIdoso = $_POST['nome-idoso'] ?? NULL;
     $cpfIdoso = $_POST['cpf-idoso'] ?? NULL;
-    $dataNasciIdoso = $_POST['data-nascimento-idoso'] ?? NULL;
+    $dataNasciIdoso = $_POST['data-nasci-idoso'] ?? NULL;
     $foneIdoso = $_POST['fone-idoso'] ?? NULL;
     $generoIdoso = $_POST['genero-idoso'] ?? NULL;
     $emailIdoso = $_POST['email-idoso'] ?? NULL;
@@ -25,11 +25,10 @@
     $botaoContinuar = $_POST['botao-continuar'] ?? NULL;
     $botaoCancelar = $_POST['botao-cancelar'] ?? NULL;
     
-
     // Verificando apenas se o usuario não clicar em cancelar
-    if(empty($botaoCancelar)){
+    if(!isset($botaoCancelar)){
         // Se não clicar, verificando se  todos foram adicionados
-        if(!empty($nomeIdoso && $dataNascimentoIdoso && $foneIdoso && $generoIdoso && $emailIdoso && $cepIdoso && $ruaIdoso && $bairroIdoso && $estadoIdoso && $numeroIdoso && $complementoIdoso && $acompanhanteIdoso)){
+        if(!empty($nomeIdoso && $dataNasciIdoso && $foneIdoso && $generoIdoso && $emailIdoso && $cepIdoso && $ruaIdoso && $bairroIdoso && $estadoIdoso && $numeroIdoso && $acompanhanteIdoso)){
 
             // Verificando e formatando CPF do idoso
             if(is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11){
@@ -69,11 +68,13 @@
                 mensagemAviso('Caso tenha certeza, apenas clique em Continue');
             }
 
+            //se tudo der certo, fazer uma busca do id no banco
+
         } mensagemErro("Necessário preencher todos os campos");
     }
 
     // if(isset($botaoContinuar)){
-    //     echo "<script>window.location.href='cadastrar/agendamento'</script>";
+    //     echo "<script>window.location.href='cadastrar/agendamento?<?php echo htmlspecialchars(SID);'</script>";
     //     exit;
     // }
     // if(isset($botaoCancelar)){

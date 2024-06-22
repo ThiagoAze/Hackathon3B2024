@@ -66,7 +66,11 @@
             cancelButtonText: 'Gostaria de um acompanhante'
         }).then((result) =>{
             if(result.value){
-                swal('Certo!', 'Direcionando para Agendamento', 'success', location.href='cadastrar/agendamento')}});
+                swal('Certo!', 'Direcionando para Agendamento', 'success', location.href='cadastrar/agendamento')
+            }else{
+                location.href='cadastrar/idoso'
+            }
+        });
         </script>
         <?php
         exit;
