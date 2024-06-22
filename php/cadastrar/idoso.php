@@ -85,10 +85,10 @@
         <div class="row">
             <div class="col">
                 <div class="acompanhante">
-                    <label for="acompanhante-idoso">Precisa de acompanhante?</label>
+                    <label for="acomp-idoso">Precisa de acompanhante?</label>
                     <br>
-                    <input type="radio" name="acompanhante-idoso"  onclick="verAcompanhante()" id="acompanhante-idoso" value="sim">  <!--  value="<?=$dadosDoBanco->acomp ?? NULL?>" -->Sim
-                    <input type="radio" name="acompanhante-idoso"  onclick="verAcompanhante()" id="acompanhante-idoso" value="nao"> <!-- value="<?=$dadosDoBanco->acomp ?? NULL?>"-->Não
+                    <input type="radio" name="acomp-idoso"  onclick="verAcompanhante()" id="acomp-idoso" value="sim">  <!--  value="<?=$dadosDoBanco->acomp ?? NULL?>" -->Sim
+                    <input type="radio" name="acomp-idoso"  onclick="verAcompanhante()" id="acomp-idoso" value="nao"> <!-- value="<?=$dadosDoBanco->acomp ?? NULL?>"-->Não
                     <br>
                 </div>
             </div>
@@ -127,8 +127,8 @@
                 <input type="text" name="numero-idoso" require id="numero-idoso" class="form-control" value="<?=$dadosDoBanco->numero ?? NULL?>" placeholder="Digite o número da sua residência">
             </div>
             <div class="col">
-                <label for="complemento-idoso">Complemento</label> 
-                <input type="text" name="complemento-idoso" id="complemento-idoso" class="form-control" value="<?=$dadosDoBanco->complemento ?? NULL?>" placeholder="Casa, apartamento...">
+                <label for="comple-idoso">Complemento</label> 
+                <input type="text" name="comple-idoso" id="comple-idoso" class="form-control" value="<?=$dadosDoBanco->complemento ?? NULL?>" placeholder="Casa, apartamento...">
             </div>
         </div>
         <br>
@@ -139,27 +139,27 @@
             <h2>Credenciais do acompanhante</h2>
             <div class="row">
                 <div class="col">
-                    <label for="nome-acompanhante">Nome:</label> 
-                    <input type="text" name="nome-acompanhante" require id="nome-acompanhante" class="form-control" value="<?=$dadosDoBanco->nomeAcomp ?? NULL?>" placeholder="Nome completo do acompanhante">
+                    <label for="nome-acomp">Nome:</label> 
+                    <input type="text" name="nome-acomp" require id="nome-acomp" class="form-control" value="<?=$dadosDoBanco->nomeAcomp ?? NULL?>" placeholder="Nome completo do acompanhante">
                 </div> 
             </div>
             <br>
             <div class="row">
                 <div class="col">
-                    <label for="cpf-acompanhante">CPF:</label>
-                    <input type="text" name="cpf-acompanhante" require id="cpf-acompanhante" class="form-control" value="<?=$dadosDoBanco->cpfAcomp ?? NULL?>" placeholder="999.999.999-99">
+                    <label for="cpf-acomp">CPF:</label>
+                    <input type="text" name="cpf-acomp" require id="cpf-acomp" class="form-control" value="<?=$dadosDoBanco->cpfAcomp ?? NULL?>" placeholder="999.999.999-99">
                 </div>
                 <div class="col">
-                    <label for="fone-acompanhante">Telefone:</label>
-                    <input type="text" name="fone-acompanhante" require id="fone-acompanhante" class="form-control" value="<?=$dadosDoBanco->foneAcomp ?? NULL?>" placeholder="(99)99999-9999">
+                    <label for="fone-acomp">Telefone:</label>
+                    <input type="text" name="fone-acomp" require id="fone-acomp" class="form-control" value="<?=$dadosDoBanco->foneAcomp ?? NULL?>" placeholder="(99)99999-9999">
                 </div>
             </div>
             <br>
 
             <div class="row">
                 <div class="col">
-                    <label for="email-acompanhante">E-mail:</label>
-                    <input type="text" name="email-acompanhante" require id="email-acompanhante" class="form-control" value="<?=$dadosDoBanco->emailAcomp ?? NULL?>" placeholder="exemplo@gmail.com">
+                    <label for="email-acomp">E-mail:</label>
+                    <input type="text" name="email-acomp" require id="email-acomp" class="form-control" value="<?=$dadosDoBanco->emailAcomp ?? NULL?>" placeholder="exemplo@gmail.com">
                 </div>
             </div>
             <br>

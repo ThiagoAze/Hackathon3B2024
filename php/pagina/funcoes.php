@@ -25,7 +25,7 @@
             Swal.fire({
             icon: 'error',
             title: 'Ocorreu um problema',
-            text: '<?=$msgErro?>',
+            text: '<?=$msgErro?>'
             }).then((result) => {
                 history.back(); 
             })

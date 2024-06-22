@@ -12,14 +12,14 @@
     $bairroIdoso = $_POST['bairro-idoso'] ?? NULL;
     $estadoIdoso = $_POST['estado-idoso'] ?? NULL;
     $numeroIdoso = $_POST['numero-idoso'] ?? NULL;
-    $complementoIdoso = $_POST['complemento-idoso'] ?? NULL;
-    $acompanhanteIdoso = $_POST['acompanhante-idoso'] ?? NULL;
+    $complementoIdoso = $_POST['comple-idoso'] ?? NULL;
+    $acompanhanteIdoso = $_POST['acomp-idoso'] ?? NULL;
 
     //Informações do acompanhante(caso selecionado)
-    $nomeAcomp = $_POST['nome-acompanhante']  ?? NULL;
-    $cpfAcomp = $_POST['cpf-acompanhante']  ?? NULL;
-    $foneAcomp = $_POST['fone-acompanhante']  ?? NULL;
-    $emailAcomp = $_POST['email-acompanhante']  ?? NULL;
+    $nomeAcomp = $_POST['nome-acomp']  ?? NULL;
+    $cpfAcomp = $_POST['cpf-acomp']  ?? NULL;
+    $foneAcomp = $_POST['fone-acomp']  ?? NULL;
+    $emailAcomp = $_POST['email-acomp']  ?? NULL;
 
     // Botões de confirmações
     $botaoContinuar = $_POST['botao-continuar'] ?? NULL;
@@ -53,33 +53,39 @@
 
             // Verificando e formatando caso tenha acompanhante
             if($acompanhanteIdoso == 'sim'){
-                if(is_numeric($cpfAcomp) && strlen($cpfAcomp) == 11){
-                    $cpfAcompFormatado = mask($cpfAcomp, "###.###.###-##");
+                if(!empty($nomeAcomp && $cpfAcomp && $foneAcomp && $emailAcomp)){
+                    if(is_numeric($cpfAcomp) && strlen($cpfAcomp) == 11){
+                        $cpfAcompFormatado = mask($cpfAcomp, "###.###.###-##");
+                    } else{
+                        mensagemErro("CPF inválido (precisa conter apenas 11 números");
+                    }
+    
+                    if(is_numeric($foneAcomp) && strlen($foneAcomp) == 11){
+                        $foneAcompFormatado = mask($foneAcomp, "(##)#####-####");
+                    } else{
+                        mensagemErro("Telefone inválido (precisa conter ddd e 9 digitos)");
+                    }
                 } else{
-                    mensagemErro("CPF inválido (precisa conter apenas 11 números");
+                    mensagemErro("Necessário preencher todos os campos de acompanhante");
                 }
-
-                if(is_numeric($foneAcomp) && strlen($foneAcomp) == 11){
-                    $foneAcompFormatado = mask($foneAcomp, "(##)#####-####");
-                } else{
-                    mensagemErro("Telefone inválido (precisa conter ddd e 9 digitos)");
-                }
+                
             } else{ //Caso não tenha acompanhante
                 mensagemAviso('Caso tenha certeza, apenas clique em Continue');
             }
 
             //se tudo der certo, fazer uma busca do id no banco
-
-        } mensagemErro("Necessário preencher todos os campos");
+        } else{
+            mensagemErro("Necessário preencher todos os campos");
+        } 
     }
 
     // if(isset($botaoContinuar)){
     //     echo "<script>window.location.href='cadastrar/agendamento?<?php echo htmlspecialchars(SID);'</script>";
     //     exit;
     // }
-    // if(isset($botaoCancelar)){
-    //     echo "<script>window.location.href='listar/vacina'</script>";
-    //     exit;
-    // }
+    if(isset($botaoCancelar)){
+        echo "<script>window.location.href='listar/vacina'</script>";
+        exit;
+    }
 
 ?>
