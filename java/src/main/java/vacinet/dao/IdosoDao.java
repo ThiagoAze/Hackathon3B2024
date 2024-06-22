@@ -1,11 +1,12 @@
 package vacinet.dao;
 
+import vacinet.model.Agente;
+import vacinet.model.DiaDisponivel;
 import vacinet.model.Idoso;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IdosoDao {
     private Connection connection;
@@ -36,5 +37,27 @@ public class IdosoDao {
         ps.setBoolean(7, idoso.isAcompanhante());
         ps.setString(8, idoso.getGenero());
         ps.execute();
+    }
+
+    public List<Idoso> listarPorId(Integer id) throws SQLException {
+        List<Idoso> idosos = new ArrayList<>();
+
+        ResultSet rs = connection.prepareStatement("select * from idoso where id = %s".formatted(id)).executeQuery();
+        while (rs.next()) {
+            idosos.add(new Idoso(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("cpf"),
+                    rs.getDate("dataNascimento"),
+                    rs.getString("fone"),
+                    rs.getString("email"),
+                    rs.getString("senha"),
+                    rs.getString("genero"),
+                    rs.getBoolean("acompanhante")));
+        }
+
+        rs.close();
+
+        return idosos;
     }
 }

@@ -11,12 +11,14 @@ public class Agenda {
     private Time hora;
     private String rua;
     private String cep;
-    private int numero;
+    private Integer numero;
     private String complemento;
     private String estado;
     private String cidade;
+    private Boolean status;
+    private Integer idVacina;
 
-    public Agenda(Integer id, Integer idAgente, Integer idIdoso, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade) {
+    public Agenda(Integer id, Integer idAgente, Integer idIdoso, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade, Boolean status, int idVacina) {
         this.id = id;
         this.idAgente = idAgente;
         this.idIdoso = idIdoso;
@@ -28,9 +30,12 @@ public class Agenda {
         this.complemento = complemento;
         this.estado = estado;
         this.cidade = cidade;
+        this.status = status;
+        this.idVacina = idVacina;
+
     }
 
-    public Agenda(Integer idAgente, Integer idIdoso, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade) {
+    public Agenda(Integer idAgente, Integer idIdoso, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade, Boolean status, int idVacina) {
         this.idAgente = idAgente;
         this.idIdoso = idIdoso;
         this.data = data;
@@ -41,6 +46,8 @@ public class Agenda {
         this.complemento = complemento;
         this.estado = estado;
         this.cidade = cidade;
+        this.status = status;
+        this.idVacina = idVacina;
     }
 
     public Integer getId() {
@@ -103,7 +110,7 @@ public class Agenda {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
@@ -131,6 +138,22 @@ public class Agenda {
         this.cidade = cidade;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Integer getIdVacina() {
+        return idVacina;
+    }
+
+    public void setIdVacina(Integer idVacina) {
+        this.idVacina = idVacina;
+    }
+
     @Override
     public String toString() {
         return "Agenda{" +
@@ -141,10 +164,12 @@ public class Agenda {
                 ", hora=" + hora +
                 ", rua='" + rua + '\'' +
                 ", cep='" + cep + '\'' +
-                ", numero='" + numero + '\'' +
+                ", numero=" + numero +
                 ", complemento='" + complemento + '\'' +
                 ", estado='" + estado + '\'' +
                 ", cidade='" + cidade + '\'' +
+                ", status='" + status + '\'' +
+                ", idVacina=" + idVacina +
                 '}';
     }
 }

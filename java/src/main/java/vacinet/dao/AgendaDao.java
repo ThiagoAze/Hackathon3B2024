@@ -38,6 +38,13 @@ public class AgendaDao {
         ps.execute();
     }
 
+    public void deletar(int id) throws SQLException {
+        String sql = "delete from agenda where id = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        ps.execute();
+    }
+
     public List<Agenda> listarTodos(Integer idAgente) throws SQLException {
         List<Agenda> agendas = new ArrayList<Agenda>();
 
@@ -55,10 +62,34 @@ public class AgendaDao {
                     rs.getInt("numero"),
                     rs.getString("complemento"),
                     rs.getString("estado"),
-                    rs.getString("cidade")));
+                    rs.getString("cidade"),
+                    rs.getBoolean("status"),
+                    rs.getInt("vacina")));
         }
         rs.close();
         return agendas;
+    }
+
+    public Agenda listarTodosPorId(Integer id) throws SQLException {
+        ResultSet rs = connection.prepareStatement("select * from agenda where id = %s".formatted(id)).executeQuery();
+        System.out.println(rs);
+        Agenda agenda = new Agenda(
+                rs.getInt("id"),
+                rs.getInt("idAgente"),
+                rs.getInt("idIdoso"),
+                rs.getDate("data"),
+                rs.getTime("hora"),
+                rs.getString("rua"),
+                rs.getString("cep"),
+                rs.getInt("numero"),
+                rs.getString("complemento"),
+                rs.getString("estado"),
+                rs.getString("cidade"),
+                rs.getBoolean("status"),
+                rs.getInt("vacina"));
+
+        rs.close();
+        return agenda;
     }
 
     public List<Agenda> listarTodosPorIdoso(Integer idAgente, Integer idIdoso) throws SQLException {
@@ -78,7 +109,9 @@ public class AgendaDao {
                     rs.getInt("numero"),
                     rs.getString("complemento"),
                     rs.getString("estado"),
-                    rs.getString("cidade")));
+                    rs.getString("cidade"),
+                    rs.getBoolean("status"),
+                    rs.getInt("vacina")));
         }
         rs.close();
         return agendas;
@@ -101,7 +134,9 @@ public class AgendaDao {
                     rs.getInt("numero"),
                     rs.getString("complemento"),
                     rs.getString("estado"),
-                    rs.getString("cidade")));
+                    rs.getString("cidade"),
+                    rs.getBoolean("status"),
+                    rs.getInt("vacina")));
         }
         rs.close();
         return agendas;

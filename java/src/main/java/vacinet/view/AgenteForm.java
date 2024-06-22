@@ -198,7 +198,7 @@ public class AgenteForm extends JFrame {
                 Agente agente = new Agente(campoNome.getText(), cpfBanco, Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), campoEmail.getText(), foneBanco, campoSenha.getText());
                 agente.setId(0);
                 setVisible(false);
-                var form = new AgenteView(/*agente*/);
+                var form = new AgenteView(agente);
                 form.setVisible(true);
             } catch (ParseException e) {
                 throw new RuntimeException(e);

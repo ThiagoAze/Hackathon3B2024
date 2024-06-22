@@ -1,5 +1,6 @@
 package vacinet.view;
 
+import vacinet.model.Idoso;
 import vacinet.service.AgenteService;
 import vacinet.service.IdosoService;
 
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Date;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -36,7 +38,7 @@ public class IdosoForm extends JFrame{
     private JLabel labelAcompanhante;
     private JCheckBox acompanhanteSim;
     private JCheckBox acompanhanteNao;
-
+    private Boolean escolhaAcompanhante;
     private JLabel labelSenha;
     private JTextField campoSenha;
     private JLabel labelRegrasSenha;
@@ -166,27 +168,7 @@ public class IdosoForm extends JFrame{
         constraints.gridy = 10;
         painelEntrada.add(botaoCadastrar, constraints);
 
-        acompanhanteSim.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    acompanhanteNao.setEnabled(false);
-                } else {
-                    acompanhanteNao.setEnabled(true);
-                }
-            }
-        });
-
-        acompanhanteNao.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    acompanhanteSim.setEnabled(false);
-                } else {
-                    acompanhanteSim.setEnabled(true);
-                }
-            }
-        });
+        validarCheckBox();
 
         getContentPane().add(painelEntrada, BorderLayout.CENTER);
         setLocationRelativeTo(null);
@@ -205,7 +187,7 @@ public class IdosoForm extends JFrame{
     }
     private void validarCpf(int valor) {
         try {
-            if (valor != 11) throw new RuntimeException("O campo cpf deve ter até 8 caracteres");
+            if (valor != 11) throw new RuntimeException("O campo cpf deve ter até 11 caracteres");
         } catch (Exception e){
             permitirCadastro = false;
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -233,7 +215,12 @@ public class IdosoForm extends JFrame{
             System.out.println(data);
             return data;
         } catch (RuntimeException re) {
+            permitirCadastro = false;
             JOptionPane.showMessageDialog(this, re.getMessage());
+            return null;
+        } catch (Exception e) {
+            permitirCadastro = false;
+            JOptionPane.showMessageDialog(this, "data inválida");
             return null;
         }
     }
@@ -242,7 +229,7 @@ public class IdosoForm extends JFrame{
         var valorFormatado = valor.replaceAll("[^0-9]", "");
         System.out.println(valorFormatado);
 
-        return valor;
+        return valorFormatado;
     }
 
     private void cadastrar() {
@@ -250,6 +237,8 @@ public class IdosoForm extends JFrame{
         validacaoStrings(campoNome.getText(), "nome");
         validacaoStrings(campoCpf.getText(), "CPF");
         var cpfBanco = formatarNumeros(campoCpf.getText());
+        validarCpf(cpfBanco.length());
+
         var dataBanco = validacaoData(campoDataNascimento.getText(), "data de nascimento");
         validacaoStrings(campoEmail.getText(), "email");
         validacaoStrings(campoFone.getText(), "telefone");
@@ -257,7 +246,10 @@ public class IdosoForm extends JFrame{
         validacaoStrings(campoSenha.getText(), "senha");
         validarSenha(campoSenha.getText());
         if (permitirCadastro) {
+            var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             JOptionPane.showMessageDialog(this, "Mandando para outra tela");
+            Idoso idoso = new Idoso(campoNome.getText(), cpfBanco, Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), foneBanco, campoEmail.getText(), campoSenha.getText(), boxGenero.toString(), escolhaAcompanhante);
+
         }
     }
 
@@ -274,5 +266,36 @@ public class IdosoForm extends JFrame{
         setVisible(false);
         var form = new MenuForm();
         form.setVisible(true);
+    }
+
+    private void validarCheckBox(){
+        acompanhanteSim.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    acompanhanteNao.setSelected(false);
+                    escolhaAcompanhante = true;
+
+                } else {
+                    acompanhanteNao.setSelected(true);
+                    escolhaAcompanhante = false;
+
+                }
+            }
+        });
+
+        acompanhanteNao.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    acompanhanteSim.setSelected(false);
+                    escolhaAcompanhante = false;
+                } else {
+                    acompanhanteSim.setSelected(true);
+                    escolhaAcompanhante = true;
+
+                }
+            }
+        });
     }
 }
