@@ -17,9 +17,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class IdosoForm extends JFrame{
-    IdosoService service;
-
+    private IdosoService service;
     private boolean permitirCadastro;
+    private DateTimeFormatter formatter;
     private JLabel labelForm;
     private JLabel labelNome;
     private JTextField campoNome;
@@ -45,10 +45,11 @@ public class IdosoForm extends JFrame{
     private JButton botaoCancelar;
     private JButton botaoCadastrar;
 
-    public IdosoForm() throws ParseException {
+    public IdosoForm(Idoso idosoSalvo) throws ParseException {
         service = new IdosoService();
+        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        setTitle("Cadastro Agente");
+        setTitle("Cadastro Idoso");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(700, 650);
 
@@ -88,7 +89,7 @@ public class IdosoForm extends JFrame{
         painelEntrada.add(labelDataNascimento, constraints);
 
         campoDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
-        campoCpf.setSize(10, 5);
+        campoDataNascimento.setSize(10, 5);
         constraints.gridx = 1;
         constraints.gridy = 3;
         painelEntrada.add(campoDataNascimento, constraints);
@@ -99,7 +100,7 @@ public class IdosoForm extends JFrame{
         painelEntrada.add(labelFone, constraints);
 
         campoFone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
-        campoCpf.setSize(10, 5);
+        campoFone.setSize(10, 5);
         constraints.gridx = 1;
         constraints.gridy = 4;
         painelEntrada.add(campoFone, constraints);
@@ -129,7 +130,7 @@ public class IdosoForm extends JFrame{
         labelAcompanhante = new JLabel("Precisa de acompanhante?");
         constraints.gridx = 0;
         constraints.gridy = 7;
-        painelEntrada.add(labelGenero, constraints);
+        painelEntrada.add(labelAcompanhante, constraints);
 
         acompanhanteSim = new JCheckBox("Sim");
         constraints.gridx = 1;
@@ -170,9 +171,35 @@ public class IdosoForm extends JFrame{
 
         validarCheckBox();
 
+        validarIdoso(idosoSalvo);
+
         getContentPane().add(painelEntrada, BorderLayout.CENTER);
         setLocationRelativeTo(null);
 
+    }
+
+    private void validarIdoso(Idoso idoso) {
+        if (idoso != null) {
+
+            campoNome.setText(idoso.getNome());
+            campoCpf.setText(idoso.getCpf());
+
+            if (idoso.getGenero() == "masculino") boxGenero.setSelectedIndex(0);
+            if (idoso.getGenero() == "feminino") boxGenero.setSelectedIndex(1);
+            if (idoso.getGenero() == "prefiro não indicar") boxGenero.setSelectedIndex(2);
+            var dataNascimento = idoso.getDataNascimento().toString();
+            campoDataNascimento.setText(idoso.getDataNascimento().toString());
+            campoDataNascimento.setText(dataNascimento.substring(5, 7) + "/" + dataNascimento.substring(8, 10) + "/" + dataNascimento.substring(0, 4));
+
+            if (idoso.isAcompanhante()) {
+                acompanhanteSim.setSelected(true);
+            } else {
+                acompanhanteNao.setSelected(true);
+            }
+            campoFone.setText(idoso.getFone());
+            campoEmail.setText(idoso.getEmail());
+            campoSenha.setText(idoso.getSenha());
+        }
     }
 
     private void validacaoStrings(String valor, String CAMPO) {
@@ -206,13 +233,11 @@ public class IdosoForm extends JFrame{
 
     private LocalDate validacaoData(String valor, String CAMPO){
         try {
-            System.out.println(valor);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             if (valor.isEmpty()) throw new RuntimeException("Campo %s não pode ser vazio".formatted(CAMPO));
             if (valor.isBlank()) throw new RuntimeException("Campo %s não pode ser espaço".formatted(CAMPO));
             var dataInicioCarreira = campoDataNascimento.getText();
             var data = LocalDate.parse(dataInicioCarreira, formatter);
-            System.out.println(data);
+
             return data;
         } catch (RuntimeException re) {
             permitirCadastro = false;
@@ -227,9 +252,15 @@ public class IdosoForm extends JFrame{
 
     public String formatarNumeros(String valor) {
         var valorFormatado = valor.replaceAll("[^0-9]", "");
-        System.out.println(valorFormatado);
 
         return valorFormatado;
+    }
+
+    public String formatarGenero(Integer generoEscolhidoIndex) {
+        if (generoEscolhidoIndex == 0) return "masculino";
+        if (generoEscolhidoIndex == 1) return "feminino";
+        if (generoEscolhidoIndex == 2) return  "prefiro não indicar";
+        return null;
     }
 
     private void cadastrar() {
@@ -238,6 +269,7 @@ public class IdosoForm extends JFrame{
         validacaoStrings(campoCpf.getText(), "CPF");
         var cpfBanco = formatarNumeros(campoCpf.getText());
         validarCpf(cpfBanco.length());
+        var generoEscolhido = formatarGenero(boxGenero.getSelectedIndex());
 
         var dataBanco = validacaoData(campoDataNascimento.getText(), "data de nascimento");
         validacaoStrings(campoEmail.getText(), "email");
@@ -246,10 +278,20 @@ public class IdosoForm extends JFrame{
         validacaoStrings(campoSenha.getText(), "senha");
         validarSenha(campoSenha.getText());
         if (permitirCadastro) {
-            var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             JOptionPane.showMessageDialog(this, "Mandando para outra tela");
-            Idoso idoso = new Idoso(campoNome.getText(), cpfBanco, Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), foneBanco, campoEmail.getText(), campoSenha.getText(), boxGenero.toString(), escolhaAcompanhante);
+            Idoso idoso = new Idoso(campoNome.getText(), cpfBanco, Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), foneBanco, campoEmail.getText(), campoSenha.getText(), generoEscolhido, escolhaAcompanhante);
+            if (escolhaAcompanhante) {
+                setVisible(false);
+                AcompanhanteForm form = null;
+                try {
+                    form = new AcompanhanteForm(idoso);
+                    form.setVisible(true);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
 
+            }
         }
     }
 

@@ -12,8 +12,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class AgenteForm extends JFrame {
-    AgenteService service;
-
+    private AgenteService service;
+    private DateTimeFormatter formatter;
     private boolean permitirCadastro;
     private JLabel labelForm;
     private JLabel labelNome;
@@ -34,6 +34,7 @@ public class AgenteForm extends JFrame {
 
     public AgenteForm() throws ParseException {
         service = new AgenteService();
+        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         setTitle("Cadastro Agente");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -160,12 +161,11 @@ public class AgenteForm extends JFrame {
 
     private LocalDate validacaoData(String valor, String CAMPO){
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
             if (valor.isEmpty()) throw new RuntimeException("Campo %s não pode ser vazio".formatted(CAMPO));
             if (valor.isBlank()) throw new RuntimeException("Campo %s não pode ser espaço".formatted(CAMPO));
             var dataInicioCarreira = campoDataNascimento.getText();
             var data = LocalDate.parse(dataInicioCarreira, formatter);
-            System.out.println(data);
             return data;
         } catch (RuntimeException re) {
             JOptionPane.showMessageDialog(this, re.getMessage());
@@ -175,7 +175,6 @@ public class AgenteForm extends JFrame {
 
     public String formatarNumeros(String valor) {
         var valorFormatado = valor.replaceAll("[^0-9]", "");
-        System.out.println(valorFormatado);
 
         return valor;
     }

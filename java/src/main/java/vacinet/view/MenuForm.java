@@ -47,7 +47,7 @@ public class MenuForm extends JFrame{
         setVisible(false);
         IdosoForm form = null;
         try {
-            form = new IdosoForm();
+            form = new IdosoForm(null);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
