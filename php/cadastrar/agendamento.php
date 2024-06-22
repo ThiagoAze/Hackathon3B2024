@@ -1,17 +1,17 @@
-<div class="form-idoso">
+ <div class="form-idoso">
     <div class="logo">Vacinet</div>
     <h1>Agendamento da vacinação</h1>
 
-    <form action="validar/cadastroUsuario" method="POST">
+    <form action="validar/agenda" method="POST">
 
         <div class="row">
             <div class="col">
-                <label for="data-agendamento">Agende um dia de sua preferência:</label>
-                <input type="date" name="data-agendamento" require id="data-agendamento" class="form-control" placeholder="dd/mm/aaaa">
+                <label for="data-agend">Agende um dia de sua preferência:</label>
+                <input type="date" name="data-agend" require id="data-agend" class="form-control" placeholder="dd/mm/aaaa">
             </div>
             <div class="col">
-                <label for="horario-agendamento">Agende em um dos horários de sua preferência</label>
-                <select name="horario-agendamento" require id="horario-agendamento" class="form-select" aria-label="Default select example">
+                <label for="hora-agend">Agende em um dos horários de sua preferência</label>
+                <select name="hora-agend" require id="hora-agend" class="form-select" aria-label="Default select example">
                     <option value="manha">Manhã: Entre ás 7:00 e 12:00</option>
                     <option value="tarde">Tarde: Entre ás 13:00 e 18:00</option>
                 </select>            

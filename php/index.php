@@ -17,6 +17,7 @@
     <!-- Ícones -->
     <script src="https://kit.fontawesome.com/b82f5ae24a.js" crossorigin="anonymous"></script>
     <!-- JavaScript -->
+    <script src="js/form.js"></script>
     <script src="js/jquery.inputmask.min.js"></script>
     <script src="js/sweetalert2.min.js"></script>
     <!-- Estilização -->
