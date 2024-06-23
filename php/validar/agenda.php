@@ -18,9 +18,9 @@
         echo "<script>window.location.href='cadastrar/idoso'</script>";
         exit;
     }
-    // if(isset($botaoConfirmar)){
-    //     mensagemSucesso("Credenciais enviadas com sucesso!");
-    //     echo "<script>window.location.href='listar/vacina'</script>";
-    //     exit;
-    // }
+    if(isset($botaoConfirmar)){
+        mensagemSucesso("Credenciais enviadas com sucesso!");
+        echo "<script>window.location.href='listar/vacina'</script>";
+        exit;
+    }
 ?>

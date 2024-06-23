@@ -41,7 +41,7 @@
             if(is_numeric($foneIdoso) && strlen($foneIdoso) == 11){
                 $foneIdosoFormatado = mask($foneIdoso, "(##)#####-####");
             } else{
-                mensagemErro("Telefone inválido (precisa conter ddd e 9 digitos)");
+                mensagemErro("Telefone inválido (precisa conter apenas ddd e 9 digitos)");
             }
 
             // Verificando e formatando CEP do idoso
@@ -49,6 +49,11 @@
                 $cepIdosoFormatado = mask($cepIdoso, "#####-###");
             } else{
                 mensagemErro("CEP inválido (precisa conter 8 números)");
+            }
+
+            // Verificando número de residencia do idoso
+            if(!is_numeric($numeroIdoso)){
+                mensagemErro("Número inválido(Precisa conter apenas números)");
             }
 
             // Verificando e formatando caso tenha acompanhante
@@ -79,10 +84,10 @@
         } 
     }
 
-    // if(isset($botaoContinuar)){
-    //     echo "<script>window.location.href='cadastrar/agendamento?<?php echo htmlspecialchars(SID);'</script>";
-    //     exit;
-    // }
+    if(isset($botaoContinuar)){
+        echo "<script>window.location.href='cadastrar/agendamento?<?php echo htmlspecialchars(SID);'</script>";
+        exit;
+    }
     if(isset($botaoCancelar)){
         echo "<script>window.location.href='listar/vacina'</script>";
         exit;
