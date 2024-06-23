@@ -3,13 +3,17 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  //Criar a tabela alergia
-    return knex.schema.createTable('alergia', function(table) {
+  //Criar a tabela acompanhante
+    return knex.schema.createTable('acompanhante', function(table) {
         table.increments('id').primary();
         table.string('nome', 100).notNullable();
-        table.string('observacao', 200).notNullable();
+        table.string('cpf', 11).notNullable();
+        table.string('telefone', 100).notNullable();
+        table.string('email', 100).notNullable();
+        table.string('senha', 100).notNullable();
         table.timestamps(true, true);
       });
+  
 };
 
 /**
@@ -17,5 +21,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('alergia');
+  return knex.schema.dropTableIfExists('acompanhante');
 };

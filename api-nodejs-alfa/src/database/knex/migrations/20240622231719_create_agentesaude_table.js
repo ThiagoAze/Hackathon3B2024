@@ -3,6 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
+  //Criar a tabela agentesaude
     return knex.schema.createTable('agentesaude', function(table) {
         table.increments('id').primary();
         table.string('nome', 100).notNullable();
@@ -11,6 +12,7 @@ exports.up = function(knex) {
         table.string('telefone', 11).notNullable();
         table.string('email', 100).notNullable();
         table.string('senha', 100).notNullable();
+        table.timestamps(true, true);
       });
 };
 
@@ -19,5 +21,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+  return knex.schema.dropTableIfExists('agentesaude');
 };

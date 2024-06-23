@@ -3,15 +3,14 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
+  //Criar a tabela diadisponivel
     return knex.schema.createTable('diadisponivel', function(table) {
         table.increments('id').primary();
-        table.integer('idAgenteSaude').notNullable().unsigned();
         table.date('data').notNullable();
         table.boolean('periodoManha').notNullable();
         table.boolean('periodoTarde').notNullable();
         table.integer('quantVisita').notNullable();
-    
-        table.foreign('idAgenteSaude').references('agentesaude.id');
+        table.timestamps(true, true);
       });
 };
 
@@ -20,5 +19,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+  return knex.schema.dropTableIfExists('diadisponivel');
 };

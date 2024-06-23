@@ -3,6 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
+  //Criar a tabela vacina
     return knex.schema.createTable('vacina', function(table) {
         table.increments('id').primary();
         table.string('nome', 100).notNullable();
@@ -12,6 +13,7 @@ exports.up = function(knex) {
         table.date('dataFinal').notNullable();
         table.string('doenca', 100).notNullable();
         table.string('observacao', 100).notNullable();
+        table.timestamps(true, true);
       });
 };
 
@@ -20,5 +22,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+  return knex.schema.dropTableIfExists('vacina');
 };

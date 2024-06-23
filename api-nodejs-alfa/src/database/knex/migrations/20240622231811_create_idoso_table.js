@@ -3,9 +3,9 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
+  //Criar a tabela idoso\
     return knex.schema.createTable('idoso', function(table) {
         table.increments('id').primary();
-        table.integer('idHistoricoSaude').notNullable().unsigned();
         table.string('nome', 100).notNullable();
         table.string('cpf', 11).notNullable();
         table.date('dataNascimento').notNullable();
@@ -13,10 +13,8 @@ exports.up = function(knex) {
         table.string('email', 100).notNullable();
         table.string('senha', 100).notNullable();
         table.string('genero', 2).notNullable();
-        table.integer('idAcompanhante').unsigned();
-    
-        table.foreign('idHistoricoSaude').references('historicosaude.id');
-        table.foreign('idAcompanhante').references('acompanhante.id');
+        table.boolean('acompanhante').notNullable;
+        table.timestamps(true, true);
       });
 };
 
@@ -25,5 +23,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+  return knex.schema.dropTableIfExists('idoso');
 };

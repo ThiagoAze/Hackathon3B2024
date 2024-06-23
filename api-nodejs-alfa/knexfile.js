@@ -1,24 +1,21 @@
 const path = require('path')
 
-module.exports = {
-  development: {
-    client: 'sqlite3',
+  module.exports = {
+    client: 'mysql',
     connection: {
-      filename: path.resolve(__dirname, 'src', 'database', 'vacinet.db')
-    },
-    pool: {
-      afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb)
-    },
-
-    migrations: {
-      directory: path.resolve(
-        __dirname,
-        'src',
-        'database',
-        'knex',
-        'migrations'
-      )
-    },
-    useNullAsDefault: true
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'vacinet',
+      charset: 'utf8mb4'
+  },
+  migrations: {
+    directory: path.resolve(
+      __dirname,
+      'src',
+      'database',
+      'knex',
+      'migrations'
+    )
   }
 }

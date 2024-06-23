@@ -3,13 +3,12 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
+  //Criar a tabela problemasaude
     return knex.schema.createTable('problemasaude', function(table) {
         table.increments('id').primary();
         table.string('nome', 100).notNullable();
         table.string('observacao', 200).notNullable();
-        table.integer('idHistoricoSaude').notNullable().unsigned();
-    
-        table.foreign('idHistoricoSaude').references('historicosaude.id');
+        table.timestamps(true, true);
       });
 };
 
@@ -18,5 +17,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+  return knex.schema.dropTableIfExists('problemasaude');
 };
