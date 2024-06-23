@@ -8,7 +8,7 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('nome', 100).notNullable();
         table.string('observacao', 200).notNullable();
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 

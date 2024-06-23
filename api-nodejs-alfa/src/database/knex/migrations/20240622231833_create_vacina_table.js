@@ -13,7 +13,7 @@ exports.up = function(knex) {
         table.date('dataFinal').notNullable();
         table.string('doenca', 100).notNullable();
         table.string('observacao', 100).notNullable();
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 

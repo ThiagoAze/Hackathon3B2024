@@ -8,7 +8,7 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.boolean('problemaSaude').notNullable();
         table.boolean('alergia').notNullable();
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 

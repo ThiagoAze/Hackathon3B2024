@@ -17,7 +17,7 @@ exports.up = function(knex) {
         table.boolean('statusAgendamento').notNullable();
         table.string('periodo', 11).notNullable();
         table.boolean('statusVisita').notNullable();
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 

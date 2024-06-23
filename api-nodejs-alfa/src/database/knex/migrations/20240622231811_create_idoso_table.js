@@ -14,7 +14,7 @@ exports.up = function(knex) {
         table.string('senha', 100).notNullable();
         table.string('genero', 2).notNullable();
         table.boolean('acompanhante').notNullable;
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 

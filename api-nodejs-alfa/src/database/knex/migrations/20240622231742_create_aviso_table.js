@@ -11,7 +11,7 @@ exports.up = function(knex) {
         table.string('descricao', 200).notNullable();
         table.date('data').notNullable();
         table.time('hora').notNullable();
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 

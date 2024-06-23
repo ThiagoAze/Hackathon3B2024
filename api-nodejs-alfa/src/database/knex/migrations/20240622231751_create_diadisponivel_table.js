@@ -10,7 +10,7 @@ exports.up = function(knex) {
         table.boolean('periodoManha').notNullable();
         table.boolean('periodoTarde').notNullable();
         table.integer('quantVisita').notNullable();
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 

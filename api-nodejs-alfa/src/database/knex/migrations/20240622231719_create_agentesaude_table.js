@@ -12,7 +12,7 @@ exports.up = function(knex) {
         table.string('telefone', 11).notNullable();
         table.string('email', 100).notNullable();
         table.string('senha', 100).notNullable();
-        table.timestamps(true, true);
+        table.timestamps(true, true).defaultTo(knex.fn.now());
       });
 };
 
