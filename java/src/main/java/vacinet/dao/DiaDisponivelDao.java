@@ -17,7 +17,7 @@ public class DiaDisponivelDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/<nome>?useTimezone=true&serverTimezone=UTC", "root", "");
+                    "jdbc:mysql://localhost:3306/vacinet?useTimezone=true&serverTimezone=UTC", "root", "");
         } catch (Exception e) {
             throw new SQLException(e.getMessage());
         }
@@ -27,19 +27,19 @@ public class DiaDisponivelDao {
     }
 
     public void inserir(DiaDisponivel diaDisponivel) throws SQLException {
-        String sql = "insert into dia_disponivel(<parametros>) values(?,?,?,?,?,?)";
+        String sql = "insert into diaDisponivel(data, periodoManha, PeriodoTarde, quantVisita, idAgenteSaude) values(?,?,?,?,?)";
         PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setInt(1, diaDisponivel.getId());
-        ps.setInt(2, diaDisponivel.getIdAgente());
-        ps.setDate(3, diaDisponivel.getData());
-        ps.setBoolean(4, diaDisponivel.getPeriodoManha());
-        ps.setBoolean(5, diaDisponivel.getPeriodoTarde());
-        ps.setInt(6, diaDisponivel.getQuantVisita());
+        ps.setDate(1, diaDisponivel.getData());
+        ps.setBoolean(2, diaDisponivel.getPeriodoManha());
+        ps.setBoolean(3, diaDisponivel.getPeriodoTarde());
+        ps.setInt(4, diaDisponivel.getQuantVisita());
+        ps.setInt(5, diaDisponivel.getIdAgente());
+
         ps.execute();
     }
 
     public void atualizar(DiaDisponivel diaDisponivel) throws SQLException {
-        String sql = "update dia_disponivel set data = ?, periodo_manha = ?, periodo_tarde = ?, visitas_max = ? where id = ?";
+        String sql = "update diaDisponivel set data = ?, periodoManha = ?, PeriodoTarde = ?, quantVisita = ? where id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setDate(1, diaDisponivel.getData());
         ps.setBoolean(2, diaDisponivel.getPeriodoManha());
@@ -52,20 +52,85 @@ public class DiaDisponivelDao {
     }
 
     public void deletar(int id) throws SQLException {
-        String sql = "delete from dia_disponivel where id = ?";
+        String sql = "delete from diaDisponivel where id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setInt(1, id);
         ps.execute();
     }
 
-    public List<DiaDisponivel> listarPorIdAgente(Agente agente) throws SQLException {
+    public List<DiaDisponivel> listarIdAgente(Integer idAgente) throws SQLException {
         List<DiaDisponivel> diasDisponiveis = new ArrayList<DiaDisponivel>();
 
-        ResultSet rs = connection.prepareStatement("select * from dia_disponivel where id_agente = %s").executeQuery();
+        ResultSet rs = connection.prepareStatement("select * from diaDisponivel where idAgenteSaude = %s".formatted(idAgente)).executeQuery();
         while (rs.next()) {
             diasDisponiveis.add(new DiaDisponivel(
                     rs.getInt("id"),
-                    rs.getInt("id_agente"),
+                    rs.getInt("idAgenteSaude"),
+                    rs.getDate("data"),
+                    rs.getBoolean("periodoManha"),
+                    rs.getBoolean("periodoTarde"),
+                    rs.getInt("quantVisita")));
+        }
+
+        rs.close();
+
+        return diasDisponiveis;
+    }
+
+    public List<DiaDisponivel> listarPeriodoManhaDia(Date data) throws SQLException {
+        List<DiaDisponivel> diasDisponiveis = new ArrayList<DiaDisponivel>();
+        String sql = "select * from diaDisponivel where data = ? and periodoManha = true order by quantVisita asc";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setDate(1, data);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            diasDisponiveis.add(new DiaDisponivel(
+                    rs.getInt("id"),
+                    rs.getInt("idAgenteSaude"),
+                    rs.getDate("data"),
+                    rs.getBoolean("periodoManha"),
+                    rs.getBoolean("periodoTarde"),
+                    rs.getInt("quantVisita")));
+        }
+
+        rs.close();
+
+        return diasDisponiveis;
+    }
+
+    public List<DiaDisponivel> listarId(int id) throws SQLException {
+        List<DiaDisponivel> diasDisponiveis = new ArrayList<DiaDisponivel>();
+
+
+        String sql = "select * from diaDisponivel where id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            diasDisponiveis.add(new DiaDisponivel(
+                    rs.getInt("id"),
+                    rs.getInt("idAgenteSaude"),
+                    rs.getDate("data"),
+                    rs.getBoolean("periodoManha"),
+                    rs.getBoolean("periodoTarde"),
+                    rs.getInt("quantVisita")));
+        }
+
+        rs.close();
+
+        return diasDisponiveis;
+    }
+
+    public List<DiaDisponivel> listarPeriodoTardeDia(java.sql.Date data) throws SQLException {
+        List<DiaDisponivel> diasDisponiveis = new ArrayList<DiaDisponivel>();
+        String sql = "select * from diaDisponivel where data = ? and periodoTarde = true order by quantVisita asc";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setDate(1, data);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            diasDisponiveis.add(new DiaDisponivel(
+                    rs.getInt("id"),
+                    rs.getInt("idAgenteSaude"),
                     rs.getDate("data"),
                     rs.getBoolean("periodoManha"),
                     rs.getBoolean("periodoTarde"),

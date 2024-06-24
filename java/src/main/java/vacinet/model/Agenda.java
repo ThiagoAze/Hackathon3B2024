@@ -7,6 +7,7 @@ public class Agenda {
     private Integer id;
     private Integer idAgente;
     private Integer idIdoso;
+    private Integer idVacina;
     private Date data;
     private Time hora;
     private String rua;
@@ -15,13 +16,16 @@ public class Agenda {
     private String complemento;
     private String estado;
     private String cidade;
-    private Boolean status;
-    private Integer idVacina;
+    private Boolean statusVisita;
+    private Boolean statusAgendamento;
+    private String periodo;
 
-    public Agenda(Integer id, Integer idAgente, Integer idIdoso, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade, Boolean status, int idVacina) {
+
+    public Agenda(Integer id, Integer idAgente, Integer idIdoso, Integer idVacina, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade, Boolean statusVisita, Boolean statusAgendamento, String periodo) {
         this.id = id;
         this.idAgente = idAgente;
         this.idIdoso = idIdoso;
+        this.idVacina = idVacina;
         this.data = data;
         this.hora = hora;
         this.rua = rua;
@@ -30,14 +34,15 @@ public class Agenda {
         this.complemento = complemento;
         this.estado = estado;
         this.cidade = cidade;
-        this.status = status;
-        this.idVacina = idVacina;
-
+        this.statusVisita = statusVisita;
+        this.statusAgendamento = statusAgendamento;
+        this.periodo = periodo;
     }
 
-    public Agenda(Integer idAgente, Integer idIdoso, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade, Boolean status, int idVacina) {
+    public Agenda(Integer idAgente, Integer idIdoso, Integer idVacina, Date data, Time hora, String rua, String cep, int numero, String complemento, String estado, String cidade, Boolean statusVisita, Boolean statusAgendamento, String periodo) {
         this.idAgente = idAgente;
         this.idIdoso = idIdoso;
+        this.idVacina = idVacina;
         this.data = data;
         this.hora = hora;
         this.rua = rua;
@@ -46,8 +51,9 @@ public class Agenda {
         this.complemento = complemento;
         this.estado = estado;
         this.cidade = cidade;
-        this.status = status;
-        this.idVacina = idVacina;
+        this.statusVisita = statusVisita;
+        this.statusAgendamento = statusAgendamento;
+        this.periodo = periodo;
     }
 
     public Integer getId() {
@@ -138,12 +144,28 @@ public class Agenda {
         this.cidade = cidade;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean getStatusAgendamento() {
+        return statusAgendamento;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setStatusAgendamento(Boolean statusAgendamento) {
+        this.statusAgendamento = statusAgendamento;
+    }
+
+    public Boolean getStatusVisita() {
+        return statusVisita;
+    }
+
+    public void setStatusVisita(Boolean statusVisita) {
+        this.statusVisita = statusVisita;
+    }
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
     }
 
     public Integer getIdVacina() {
@@ -160,6 +182,7 @@ public class Agenda {
                 "id=" + id +
                 ", idAgente=" + idAgente +
                 ", idIdoso=" + idIdoso +
+                ", idVacina=" + idVacina +
                 ", data=" + data +
                 ", hora=" + hora +
                 ", rua='" + rua + '\'' +
@@ -168,8 +191,9 @@ public class Agenda {
                 ", complemento='" + complemento + '\'' +
                 ", estado='" + estado + '\'' +
                 ", cidade='" + cidade + '\'' +
-                ", status='" + status + '\'' +
-                ", idVacina=" + idVacina +
+                ", statusVisita=" + statusVisita +
+                ", statusAgendamento=" + statusAgendamento +
+                ", periodo='" + periodo + '\'' +
                 '}';
     }
 }

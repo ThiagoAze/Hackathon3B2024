@@ -38,14 +38,15 @@ public class AgenteForm extends JFrame {
 
         setTitle("Cadastro Agente");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setSize(700, 650);
+        setSize(500, 350);
 
         JPanel painelEntrada = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 5, 5);
 
         labelForm = new JLabel("Cadastro do agente de saúde");
-        constraints.gridx = 0;
+        labelForm.setFont(new Font("titulo", 1, 20));
+        constraints.gridx = 1;
         constraints.gridy = 0;
         painelEntrada.add(labelForm, constraints);
 
@@ -65,6 +66,7 @@ public class AgenteForm extends JFrame {
         painelEntrada.add(labelCpf, constraints);
 
         campoCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+        campoCpf.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 2;
         painelEntrada.add(campoCpf, constraints);
@@ -75,6 +77,7 @@ public class AgenteForm extends JFrame {
         painelEntrada.add(labelDataNascimento, constraints);
 
         campoDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
+        campoDataNascimento.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 3;
         painelEntrada.add(campoDataNascimento, constraints);
@@ -85,6 +88,7 @@ public class AgenteForm extends JFrame {
         painelEntrada.add(labelFone, constraints);
 
         campoFone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
+        campoFone.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 4;
         painelEntrada.add(campoFone, constraints);
@@ -126,7 +130,7 @@ public class AgenteForm extends JFrame {
         constraints.gridy = 8;
         painelEntrada.add(botaoCadastrar, constraints);
 
-        getContentPane().add(painelEntrada, BorderLayout.CENTER);
+        getContentPane().add(painelEntrada, BorderLayout.NORTH);
         setLocationRelativeTo(null);
     }
 
@@ -142,7 +146,7 @@ public class AgenteForm extends JFrame {
     }
     private void validarCpf(int valor) {
         try {
-            if (valor != 11) throw new RuntimeException("O campo cpf deve ter até 8 caracteres");
+            if (valor != 11) throw new RuntimeException("O campo cpf deve ter 11 caracteres");
         } catch (Exception e){
             permitirCadastro = false;
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -168,7 +172,7 @@ public class AgenteForm extends JFrame {
             var data = LocalDate.parse(dataInicioCarreira, formatter);
             return data;
         } catch (RuntimeException re) {
-            JOptionPane.showMessageDialog(this, re.getMessage());
+            JOptionPane.showMessageDialog(this, "Digite uma data válida");
             return null;
         }
     }
@@ -176,14 +180,14 @@ public class AgenteForm extends JFrame {
     public String formatarNumeros(String valor) {
         var valorFormatado = valor.replaceAll("[^0-9]", "");
 
-        return valor;
+        return valorFormatado;
     }
 
     private void salvar() {
         permitirCadastro = true;
         validacaoStrings(campoNome.getText(), "nome");
-        validacaoStrings(campoCpf.getText(), "CPF");
-        var cpfBanco = formatarNumeros(campoCpf.getText());
+        validacaoStrings(formatarNumeros(campoCpf.getText()), "CPF");
+        validarCpf(formatarNumeros(campoCpf.getText()).length());
         var dataBanco = validacaoData(campoDataNascimento.getText(), "data de nascimento");
         validacaoStrings(campoEmail.getText(), "email");
         validacaoStrings(campoFone.getText(), "fone");
@@ -194,7 +198,8 @@ public class AgenteForm extends JFrame {
             JOptionPane.showMessageDialog(this, "cadastrado");
             try {
                 var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                Agente agente = new Agente(campoNome.getText(), cpfBanco, Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), campoEmail.getText(), foneBanco, campoSenha.getText());
+                Agente agente = new Agente(campoNome.getText(), campoNome.getText(), Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), campoEmail.getText(), foneBanco, campoSenha.getText());
+                service.salvar(agente);
                 agente.setId(0);
                 setVisible(false);
                 var form = new AgenteView(agente);

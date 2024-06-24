@@ -58,7 +58,7 @@ public class IdosoForm extends JFrame{
         constraints.insets = new Insets(5, 5, 5, 5);
 
         labelForm = new JLabel("Cadastro do Idoso");
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 0;
         painelEntrada.add(labelForm, constraints);
 
@@ -78,7 +78,7 @@ public class IdosoForm extends JFrame{
         painelEntrada.add(labelCpf, constraints);
 
         campoCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
-        campoCpf.setSize(10, 5);
+        campoCpf.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 2;
         painelEntrada.add(campoCpf, constraints);
@@ -89,7 +89,7 @@ public class IdosoForm extends JFrame{
         painelEntrada.add(labelDataNascimento, constraints);
 
         campoDataNascimento = new JFormattedTextField(new MaskFormatter("##/##/####"));
-        campoDataNascimento.setSize(10, 5);
+        campoDataNascimento.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 3;
         painelEntrada.add(campoDataNascimento, constraints);
@@ -100,7 +100,7 @@ public class IdosoForm extends JFrame{
         painelEntrada.add(labelFone, constraints);
 
         campoFone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
-        campoFone.setSize(10, 5);
+        campoFone.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 4;
         painelEntrada.add(campoFone, constraints);
@@ -113,6 +113,7 @@ public class IdosoForm extends JFrame{
         painelEntrada.add(labelGenero, constraints);
 
         boxGenero = new JComboBox(generos);
+        boxGenero.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 5;
         painelEntrada.add(boxGenero, constraints);
@@ -184,9 +185,9 @@ public class IdosoForm extends JFrame{
             campoNome.setText(idoso.getNome());
             campoCpf.setText(idoso.getCpf());
 
-            if (idoso.getGenero() == "masculino") boxGenero.setSelectedIndex(0);
-            if (idoso.getGenero() == "feminino") boxGenero.setSelectedIndex(1);
-            if (idoso.getGenero() == "prefiro não indicar") boxGenero.setSelectedIndex(2);
+            if (idoso.getGenero() == "M") boxGenero.setSelectedIndex(0);
+            if (idoso.getGenero() == "F") boxGenero.setSelectedIndex(1);
+            if (idoso.getGenero() == "NI") boxGenero.setSelectedIndex(2);
             var dataNascimento = idoso.getDataNascimento().toString();
             campoDataNascimento.setText(idoso.getDataNascimento().toString());
             campoDataNascimento.setText(dataNascimento.substring(5, 7) + "/" + dataNascimento.substring(8, 10) + "/" + dataNascimento.substring(0, 4));
@@ -202,7 +203,7 @@ public class IdosoForm extends JFrame{
         }
     }
 
-    private void validacaoStrings(String valor, String CAMPO) {
+    private void validarStrings(String valor, String CAMPO) {
         try {
             if (valor.isEmpty()) throw new RuntimeException("Campo %s não pode ser vazio".formatted(CAMPO));
             if (valor.isBlank()) throw new RuntimeException("Campo %s não pode ser espaço".formatted(CAMPO));
@@ -214,7 +215,7 @@ public class IdosoForm extends JFrame{
     }
     private void validarCpf(int valor) {
         try {
-            if (valor != 11) throw new RuntimeException("O campo cpf deve ter até 11 caracteres");
+            if (valor != 11) throw new RuntimeException("O campo cpf deve ter 11 caracteres");
         } catch (Exception e){
             permitirCadastro = false;
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -235,13 +236,12 @@ public class IdosoForm extends JFrame{
         try {
             if (valor.isEmpty()) throw new RuntimeException("Campo %s não pode ser vazio".formatted(CAMPO));
             if (valor.isBlank()) throw new RuntimeException("Campo %s não pode ser espaço".formatted(CAMPO));
-            var dataInicioCarreira = campoDataNascimento.getText();
-            var data = LocalDate.parse(dataInicioCarreira, formatter);
+            var data = LocalDate.parse(valor, formatter);
 
             return data;
         } catch (RuntimeException re) {
             permitirCadastro = false;
-            JOptionPane.showMessageDialog(this, re.getMessage());
+            JOptionPane.showMessageDialog(this, "O campo data deve ser dia/mês/ano");
             return null;
         } catch (Exception e) {
             permitirCadastro = false;
@@ -257,29 +257,42 @@ public class IdosoForm extends JFrame{
     }
 
     public String formatarGenero(Integer generoEscolhidoIndex) {
-        if (generoEscolhidoIndex == 0) return "masculino";
-        if (generoEscolhidoIndex == 1) return "feminino";
-        if (generoEscolhidoIndex == 2) return  "prefiro não indicar";
+        if (generoEscolhidoIndex == 0) return "M";
+        if (generoEscolhidoIndex == 1) return "F";
+        if (generoEscolhidoIndex == 2) return "NI";
         return null;
+    }
+
+    public void validarAcompanhante() {
+        try {
+            if (!acompanhanteSim.isSelected() && !acompanhanteNao.isSelected()) throw new RuntimeException("Marque se você precisa de algum acompanhante para auxilia-lo");
+        }catch (RuntimeException e) {
+            permitirCadastro = false;
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
     private void cadastrar() {
         permitirCadastro = true;
-        validacaoStrings(campoNome.getText(), "nome");
-        validacaoStrings(campoCpf.getText(), "CPF");
+        validarStrings(campoNome.getText(), "nome");
+        validarStrings(campoCpf.getText(), "CPF");
         var cpfBanco = formatarNumeros(campoCpf.getText());
         validarCpf(cpfBanco.length());
         var generoEscolhido = formatarGenero(boxGenero.getSelectedIndex());
 
         var dataBanco = validacaoData(campoDataNascimento.getText(), "data de nascimento");
-        validacaoStrings(campoEmail.getText(), "email");
-        validacaoStrings(campoFone.getText(), "telefone");
+        validarStrings(campoEmail.getText(), "email");
+        validarStrings(campoFone.getText(), "telefone");
         var foneBanco = formatarNumeros(campoFone.getText());
-        validacaoStrings(campoSenha.getText(), "senha");
+        validarStrings(campoSenha.getText(), "senha");
         validarSenha(campoSenha.getText());
+
+        validarAcompanhante();
         if (permitirCadastro) {
+
             JOptionPane.showMessageDialog(this, "Mandando para outra tela");
             Idoso idoso = new Idoso(campoNome.getText(), cpfBanco, Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), foneBanco, campoEmail.getText(), campoSenha.getText(), generoEscolhido, escolhaAcompanhante);
+
             if (escolhaAcompanhante) {
                 setVisible(false);
                 AcompanhanteForm form = null;
@@ -290,6 +303,14 @@ public class IdosoForm extends JFrame{
                     throw new RuntimeException(e);
                 }
             } else {
+                setVisible(false);
+                HistoricoSaudeView form = null;
+
+                service.salvar(idoso);
+                System.out.println(idoso);
+                idoso.setId(service.listarLogin(idoso.getCpf(), idoso.getSenha()).getId());
+                form = new HistoricoSaudeView(idoso);
+                form.setVisible(true);
 
             }
         }

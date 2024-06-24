@@ -34,7 +34,7 @@ public class AcompanhanteForm extends JFrame {
         serviceAcompanhante = new AcompanhanteService();
         serviceIdoso = new IdosoService();
         idosoSalvo = idoso;
-        setTitle("Cadastro Agente");
+        setTitle("Cadastro Acompanhante");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(700, 650);
 
@@ -42,8 +42,8 @@ public class AcompanhanteForm extends JFrame {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 5, 5);
 
-        labelForm = new JLabel("Cadastro do Idoso");
-        constraints.gridx = 0;
+        labelForm = new JLabel("Cadastro do Acompanhante");
+        constraints.gridx = 1;
         constraints.gridy = 0;
         painelEntrada.add(labelForm, constraints);
 
@@ -63,7 +63,7 @@ public class AcompanhanteForm extends JFrame {
         painelEntrada.add(labelCpf, constraints);
 
         campoCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
-        campoCpf.setSize(10, 5);
+        campoCpf.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 2;
         painelEntrada.add(campoCpf, constraints);
@@ -74,7 +74,7 @@ public class AcompanhanteForm extends JFrame {
         painelEntrada.add(labelFone, constraints);
 
         campoFone = new JFormattedTextField(new MaskFormatter("(##)#####-####"));
-        campoFone.setSize(10, 5);
+        campoFone.setPreferredSize(new Dimension(225, 20));
         constraints.gridx = 1;
         constraints.gridy = 3;
         painelEntrada.add(campoFone, constraints);
@@ -152,7 +152,6 @@ public class AcompanhanteForm extends JFrame {
 
     public String formatarNumeros(String valor) {
         var valorFormatado = valor.replaceAll("[^0-9]", "");
-        System.out.println(valorFormatado);
 
         return valorFormatado;
     }
@@ -170,8 +169,18 @@ public class AcompanhanteForm extends JFrame {
         validarSenha(campoSenha.getText());
         if (permitirCadastro) {
             JOptionPane.showMessageDialog(this, "Mandando para outra tela");
-            Acompanhante acompanhante = new Acompanhante(idosoSalvo.getId(), campoNome.getText(), cpfBanco, foneBanco, campoEmail.getText(), campoSenha.getText());
+            System.out.println("-------");
+            serviceIdoso.salvar(idosoSalvo);
+            idosoSalvo.setId(serviceIdoso.listarLogin(idosoSalvo.getCpf(), idosoSalvo.getSenha()).getId());
 
+            Acompanhante acompanhante = new Acompanhante(idosoSalvo.getId(), campoNome.getText(), cpfBanco, foneBanco, campoEmail.getText(), campoSenha.getText());
+            serviceAcompanhante.salvar(acompanhante);
+
+            setVisible(false);
+            HistoricoSaudeView form = null;
+
+            form = new HistoricoSaudeView(idosoSalvo);
+            form.setVisible(true);
         }
     }
 

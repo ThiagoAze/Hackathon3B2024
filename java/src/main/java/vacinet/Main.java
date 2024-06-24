@@ -1,7 +1,7 @@
 package vacinet;
 
-import vacinet.view.AgenteView;
-import vacinet.view.MenuForm;
+import vacinet.model.Vacina;
+import vacinet.view.*;
 
 import javax.swing.*;
 import java.text.ParseException;
@@ -11,12 +11,14 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             var form = new MenuForm();
             /*
-            AgenteView form = null;
+            VacinaForm form = null;
             try {
-                form = new AgenteView();
+                form = new VacinaForm();
             } catch (ParseException e) {
                 throw new RuntimeException(e);
-            }*/
+            }
+
+             */
             form.setVisible(true);
         });
     }

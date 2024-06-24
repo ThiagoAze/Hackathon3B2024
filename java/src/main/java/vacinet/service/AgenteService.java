@@ -1,5 +1,6 @@
 package vacinet.service;
 
+import vacinet.dao.AgendaDao;
 import vacinet.dao.AgenteDao;
 import vacinet.model.Agente;
 
@@ -19,6 +20,15 @@ public class AgenteService {
         }
     }
 
+    public List<Agente> listaId(int id) {
+        try {
+            var dao = new AgenteDao();
+            return dao.listarId(id);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return Collections.emptyList();
+        }
+    }
     /*
     public Boolean confirmarLogin() {
         try {
