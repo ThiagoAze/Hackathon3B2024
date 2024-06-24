@@ -1,6 +1,7 @@
 const path = require('path')
 
-  module.exports = {
+module.exports = {
+  development: {
     client: 'mysql',
     connection: {
       host: '127.0.0.1',
@@ -8,14 +9,16 @@ const path = require('path')
       password: '',
       database: 'vacinet',
       charset: 'utf8mb4'
-  },
-  migrations: {
-    directory: path.resolve(
-      __dirname,
-      'src',
-      'database',
-      'knex',
-      'migrations'
-    )
-  }
+    },
+    migrations: {
+      directory: path.resolve(
+        __dirname,
+        'src',
+        'database',
+        'knex',
+        'migrations'
+      )
+    },
+    useNullAsDefault: true
+  } 
 }

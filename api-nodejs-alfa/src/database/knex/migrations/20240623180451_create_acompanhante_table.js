@@ -11,7 +11,8 @@ exports.up = function(knex) {
         table.string('telefone', 100).notNullable();
         table.string('email', 100).notNullable();
         table.string('senha', 100).notNullable();
-        table.timestamps(true, true).defaultTo(knex.fn.now());
+        table.timestamp('created_At').defaultTo(knex.fn.now());
+        table.timestamp('updated_At').defaultTo(knex.fn.now());
       });
   
 };
@@ -21,5 +22,12 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('acompanhante');
+  return knex.schema.table('acompanhante', function(table) {
+    table.dropColumn('id');
+    table.dropColumn('nome');
+    table.dropColumn('cpf');
+    table.dropColumn('telefone');
+    table.dropColumn('email');
+    table.dropColumn('senha');
+  });
 };

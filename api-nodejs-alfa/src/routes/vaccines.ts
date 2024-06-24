@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import knexInstance from "../knex";
+import knexInstance from "./../../knexfile";
 
 const vaccinesRouter = Router();
 
@@ -8,8 +8,7 @@ vaccinesRouter.post("/", async (req: Request, res: Response) => {
 });
 
 vaccinesRouter.get("/", async (req: Request, res: Response) => {
-  const vaccines = await knexInstance("vacina").select("*");
-  res.json(vaccines);
+  console.log("Essa rota trás as vacinas");
 });
 
 vaccinesRouter.put("/:id", async (req: Request, res: Response) => {
@@ -18,14 +17,6 @@ vaccinesRouter.put("/:id", async (req: Request, res: Response) => {
 
 vaccinesRouter.delete("/:id", async (req: Request, res: Response) => {
   console.log("Esta rota essta deletando uma vacina por id ");
-});
-
-vaccinesRouter.get("/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-  
-  const vaccine = await knexInstance("vacina").where("id", id);
-  
-  res.json(vaccine);
 });
 
 export default vaccinesRouter;

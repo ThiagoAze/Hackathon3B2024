@@ -10,7 +10,8 @@ exports.up = function(knex) {
         table.boolean('periodoManha').notNullable();
         table.boolean('periodoTarde').notNullable();
         table.integer('quantVisita').notNullable();
-        table.timestamps(true, true).defaultTo(knex.fn.now());
+        table.timestamp('created_At').defaultTo(knex.fn.now());
+        table.timestamp('updated_At').defaultTo(knex.fn.now());
       });
 };
 
@@ -19,5 +20,11 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('diadisponivel');
+  return knex.schema.table('diadisponivel', function(table) {
+    table.dropColumn('id');
+    table.dropColumn('data');
+    table.dropColumn('periodoManha');
+    table.dropColumn('periodoTarde');
+    table.dropColumn('quantVisita');
+  });
 };

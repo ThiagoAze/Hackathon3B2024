@@ -8,7 +8,8 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('nome', 100).notNullable();
         table.string('observacao', 200).notNullable();
-        table.timestamps(true, true).defaultTo(knex.fn.now());
+        table.timestamp('created_At').defaultTo(knex.fn.now());
+        table.timestamp('updated_At').defaultTo(knex.fn.now());
       });
 };
 
@@ -17,5 +18,9 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('alergia');
+  return knex.schema.table('alergia', function(table) {
+    table.dropColumn('id');
+    table.dropColumn('nome');
+    table.dropColumn('observacao');
+  });
 };

@@ -14,7 +14,8 @@ exports.up = function(knex) {
         table.string('senha', 100).notNullable();
         table.string('genero', 2).notNullable();
         table.boolean('acompanhante').notNullable;
-        table.timestamps(true, true).defaultTo(knex.fn.now());
+        table.timestamp('created_At').defaultTo(knex.fn.now());
+        table.timestamp('updated_At').defaultTo(knex.fn.now());
       });
 };
 
@@ -23,5 +24,15 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('idoso');
+  return knex.schema.table('idoso', function(table) {
+    table.dropColumn('id');
+    table.dropColumn('nome');
+    table.dropColumn('cpf');
+    table.dropColumn('dataNascimento');
+    table.dropColumn('telefone');
+    table.dropColumn('email');
+    table.dropColumn('senha');
+    table.dropColumn('genero');
+    table.dropColumn('acompanhante');
+  });
 };

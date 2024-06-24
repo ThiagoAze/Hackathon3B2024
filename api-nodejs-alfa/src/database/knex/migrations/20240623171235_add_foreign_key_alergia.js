@@ -7,8 +7,8 @@ exports.up = function(knex) {
      return knex.schema.table('alergia', function (table) {
          //campo idHistoricoSaude
 
-        table.integer('idHistoricoSaude').unsigned();
-        table.foreign('idHistoricoSaude').references('id').inTable('historicosaude');
+        table.integer('idIdoso').unsigned();
+        table.foreign('idIdoso').references('id').inTable('idoso');
     });  
 };
 

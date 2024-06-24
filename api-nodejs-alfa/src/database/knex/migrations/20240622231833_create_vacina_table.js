@@ -13,7 +13,8 @@ exports.up = function(knex) {
         table.date('dataFinal').notNullable();
         table.string('doenca', 100).notNullable();
         table.string('observacao', 100).notNullable();
-        table.timestamps(true, true).defaultTo(knex.fn.now());
+        table.timestamp('created_At').defaultTo(knex.fn.now());
+        table.timestamp('updated_At').defaultTo(knex.fn.now());
       });
 };
 
@@ -22,5 +23,14 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('vacina');
+  return knex.schema.table('vacina', function(table) {
+    table.dropColumn('id');
+    table.dropColumn('nome');
+    table.dropColumn('idadeMinima');
+    table.dropColumn('idadeMaxima');
+    table.dropColumn('dataInicio');
+    table.dropColumn('dataFinal');
+    table.dropColumn('doenca');
+    table.dropColumn('observacao');
+  });
 };

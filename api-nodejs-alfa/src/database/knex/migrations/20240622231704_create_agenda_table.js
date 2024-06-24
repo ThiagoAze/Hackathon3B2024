@@ -1,11 +1,12 @@
 /**
  * @param { import("knex").Knex } knex
+ * 
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
   //Criar a tabela agenda
-    return knex.schema.createTable('agenda', function(table) {
-        table.increments('id').primary();;
+    return knex.schema.createTable("agenda",(table) => {
+        table.increments('id').primary();
         table.date('data').notNullable();
         table.time('horario').nullable();
         table.string('rua', 100).notNullable();
@@ -17,7 +18,8 @@ exports.up = function(knex) {
         table.boolean('statusAgendamento').notNullable();
         table.string('periodo', 11).notNullable();
         table.boolean('statusVisita').notNullable();
-        table.timestamps(true, true).defaultTo(knex.fn.now());
+        table.timestamp('created_At').defaultTo(knex.fn.now());
+        table.timestamp('updated_At').defaultTo(knex.fn.now());
       });
 };
 
@@ -26,5 +28,18 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('agenda');
+  return knex.schema.table('agenda', function(table) {
+    table.dropColumn('id');
+    table.dropColumn('data');
+    table.dropColumn('horario');
+    table.dropColumn('rua');
+    table.dropColumn('cep');
+    table.dropColumn('numero');
+    table.dropColumn('complemento');
+    table.dropColumn('cidade');
+    table.dropColumn('estado');
+    table.dropColumn('statusAgendamento');
+    table.dropColumn('periodo');
+    table.dropColumn('statusVisita');
+  });
 };
