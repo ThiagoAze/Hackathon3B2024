@@ -1,23 +1,25 @@
 <?php
+    //os dados serão trazidos em json
 
-    
+
     ?>
     <script>
-        //Usar Ajax para coletar automaticamente os dados(com a API node) caso o CPF tenha 11 caracteres exista
-        //Se o CPF estiver cadastrado, buscar todos os dados mais o ID
-
-        //Quando o idoso colocar seu cpf, buscar no banco e autoincrementar nos inputs
+//         Usar Ajax para coletar automaticamente os dados(com a API node) caso o CPF tenha 11 caracteres exista
+//         Se o CPF estiver cadastrado, buscar todos os dados mais o ID
+// 
+//         Quando o idoso colocar seu cpf, buscar no banco e autoincrementar nos inputs
 //         $(document).ready(function(){
 //             $("input[name ='cpf-idoso']").change(function(){
+// 
 //                 var $nomeIdoso = $("input[name ='nome-idoso'")
 //                 var $dataNasciIdoso = $("input[name = 'data-nasci-idoso']")
-//                 var $foneIdoso = $("input[name = 'fone-idoso']")
+//                 var $telefoneIdoso = $("input[name = 'telefone-idoso']")
 //                 var $generoIdoso = $("select[name = 'genero-idoso']")
 //                 var $emailIdoso = $("input[name = 'email-idoso'")
 //                 var $acompIdoso = $("input[name = 'acamp-idoso']")
 //                 var $cepidoso = $("input[name = 'cep-idoso']")
 //                 var $ruaIdoso = $("input[name = 'rua-idoso']")
-//                 var $bairroIdoso = $("input[name = 'bairro-idoso']")
+//                 var $cidadeIdoso = $("input[name = 'cidade-idoso']")
 //                 var $estadoIdoso = $("input[name = 'estado-idoso']")
 //                 var $numeroIdoso = $("input[name = 'numero-idoso']")
 //                 var $complementoIdoso = $("input[name = 'comple-idoso']")
@@ -26,13 +28,14 @@
 //                 var $foneAcomp = $("input[name = 'fone-acomp']")
 //                 var $emailAcomp = $("input[name = 'email-acomp']")
 // 
+//                 // //Os inputs estarão como carregando temporariamente
 //                 $nomeIdoso.val('Carregando...')
 //                 $foneIdoso.val('Carregando...')
 //                 $generoIdoso.val('Carregando...')
 //                 $emailIdoso.val('Carregando...')
 //                 $cepidoso.val('Carregando...')
 //                 $ruaIdoso.val('Carregando...')
-//                 $bairroIdoso.val('Carregando...')
+//                 $cidadeIdoso.val('Carregando...')
 //                 $estadoIdoso.val('Carregando...')
 //                 $numeroIdoso.val('Carregando...')
 //                 $complementoIdoso.val('Carregando...')
@@ -41,17 +44,18 @@
 //                 $foneAcomp.val('Carregando...')
 //                 $emailAcomp.val('Carregando...')
 //                 
+//                     // Colocar valores do node nos
 //                 $.getJSON(
 //                     'busca.php',
 //                     { cpf: $(this).val() },
 //                     function(json){
 //                         $nomeIdoso.val(json.nomeIdoso)
-//                         $foneIdoso.val(json.foneIdoso)
+//                         $telefoneIdoso.val(json.telefoneIdoso)
 //                         $generoIdoso.val(json.generoIdoso)
 //                         $emailIdoso.val(json.emailIdoso)
 //                         $cepidoso.val(json.cepidoso)
 //                         $ruaIdoso.val(json.ruaIdoso)
-//                         $bairroIdoso.val(json.bairroIdoso)
+//                         $cidadeIdoso.val(json.cidadeIdoso)
 //                         $estadoIdoso.val(json.estadoIdoso)
 //                         $numeroIdoso.val(json.numeroIdoso)
 //                         $complementoIdoso.val(json.complementoIdoso)
@@ -63,35 +67,32 @@
 //                 )
 //             })
 //         })
-//     </script>
-
-    <?php 
-    if(!empty($cpfIdoso)){
-        if(isset($cpfIdoso) && is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11){
-            
-
-            $_SESSION["usuario"] = [
-                "id" => $dadosDoBanco->id,
-                "nome" => $dadosDoBanco->nome,
-                "cpf" => $dadosDoBanco->cpf,
-                "dataNascimento" => $dadosDoBanco->dataNascimento,
-                "genero" => $dadosDoBanco->genero,
-                "acomp" => $dadosDoBanco->acomp,
-                "cep" => $dadosDoBanco->cep,
-                "endereco" => $dadosDoBanco->endereco,
-                "bairro" => $dadosDoBanco->bairro,
-                "estado" => $dadosDoBanco->estado,
-                "numero" => $dadosDoBanco->numero,
-                "complemento" => $dadosDoBanco->complemento,
-                "nomeAcomp" => $dadosDoBanco->nomeAcomp,
-                "cpfAcomp" => $dadosDoBanco->cpfAcomp,
-                "foneAcomp" => $dadosDoBanco->foneAcomp,
-                "emailAcomp" => $dadosDoBanco->emailAcomp,
-            ];
-        } else{
-            mensagemErro("CPF inválido (precisa conter apenas 11 números");
-        }
-    }
+    </script>
+    
+    <?php
+        //Verificar o json e inserir no banco
+    // if(!$dadosDoBanco->error){
+    //         $sqlIdoso = "INSERT INTO idoso (id, nome, cpf, dataNascimento, telefone, email, genero, acompanhante) 
+    //         VALUE (:id, :cpf, :dataNascimento, :telefone, :email, :genero, :aocmpanhante)";
+    //         $consulta = $pdo->prepare($sqlIdoso);
+    //         $consulta->bindParam(":id", $dadosDoBanco->id);
+    //         $consulta->bindParam(":nome", $dadosDoBanco->nome);
+    //         $consulta->bindParam(":cpf", $dadosDoBanco->cpf);
+    //         $consulta->bindParam(":dataNascimento", $dadosDoBanco->dataNascimento);
+    //         $consulta->bindParam(":telefone", $dadosDoBanco->telefone);
+    //         $consulta->bindParam(":email", $dadosDoBanco->email);
+    //         $consulta->bindParam(":genero", $dadosDoBanco->genero);
+    //         $consulta->bindParam(":acompanhante", $dadosDoBanco->acompanhante);
+    //         
+    //         $sqlAcomp = "INSERT INTO acompanhante(id, nome, cpf, telefone, email) 
+    //         VALUE (:id, :nome, :cpf, :telefone, :emai, :senha)";
+    //         $consulta = $pdo->prepare($sqlAcomp);
+    //         $consulta->bindParam(":id",$dadosDoBanco->id);
+    //         $consulta->bindParam(":nome",$dadosDoBanco->nome);
+    //         $consulta->bindParam(":cpf",$dadosDoBanco->cpf);
+    //         $consulta->bindParam(":telefone",$dadosDoBanco->telefone);
+    //         $consulta->bindParam(":email",$dadosDoBanco->email);
+    // }
     
 ?>
 
@@ -123,12 +124,12 @@
 
         <div class="row">
             <div class="col">
-                <label for="fone-idoso">Telefone:</label>
-                <input type="text" name="fone-idoso" require id="fone-idoso" class="form-control" value="<?=$dadosDoBanco->telefone ?? NULL?>" placeholder="(99)99999-9999">
+                <label for="telefone-idoso">Telefone:</label>
+                <input type="text" name="telefone-idoso" require id="telefone-idoso" class="form-control" value="<?=$dadosDoBanco->telefone ?? NULL?>" placeholder="(99)99999-9999">
             </div>
 
             <div class="col">
-                <label for="genero-idoso">Gênero</label>
+                <label for="genero-idoso">Gênero:</label>
                 <select name="genero-idoso" require id="genero" class="form-select" value="<?=$dadosDoBanco->genero ?? NULL?>" aria-label="Default select example">
                     <option value="m">Masculino</option>
                     <option value="f">Feminino</option>
@@ -168,15 +169,15 @@
             </div>
             <div class="col">
                 <label for="rua-idoso">Rua:</label>
-                <input type="text" name="rua-idoso" require id="rua-idoso" class="form-control" value="<?=$dadosDoBanco->endereco ?? NULL?>" placeholder="Digite o nome da sua rua">
+                <input type="text" name="rua-idoso" require id="rua-idoso" class="form-control" value="<?=$dadosDoBanco->rua ?? NULL?>" placeholder="Digite o nome da sua rua">
             </div>
         </div>
         <br>
         
         <div class="row">
             <div class="col">
-                <label for="bairro-idoso">Bairro:</label>
-                <input type="text" name="bairro-idoso" require id="bairro-idoso" class="form-control" value="<?=$dadosDoBanco->bairro ?? NULL?>" placeholder="Digite o nome do seu bairro">
+                <label for="cidade-idoso">Cidade:</label>
+                <input type="text" name="cidade-idoso" require id="cidade-idoso" class="form-control" value="<?=$dadosDoBanco->cidade ?? NULL?>" placeholder="Digite o nome do seu bairro">
             </div>
             <div class="col">
                 <label for="estado-idoso">Estado:</label> 
@@ -191,7 +192,7 @@
                 <input type="text" name="numero-idoso" require id="numero-idoso" class="form-control" value="<?=$dadosDoBanco->numero ?? NULL?>" placeholder="Digite o número da sua residência">
             </div>
             <div class="col">
-                <label for="comple-idoso">Complemento</label> 
+                <label for="comple-idoso">Complemento: (Não é obrigatório)</label> 
                 <input type="text" name="comple-idoso" id="comple-idoso" class="form-control" value="<?=$dadosDoBanco->complemento ?? NULL?>" placeholder="Casa, apartamento...">
             </div>
         </div>

@@ -4,17 +4,19 @@
     $nomeIdoso = $_POST['nome-idoso'] ?? NULL;
     $cpfIdoso = $_POST['cpf-idoso'] ?? NULL;
     $dataNasciIdoso = $_POST['data-nasci-idoso'] ?? NULL;
-    $foneIdoso = $_POST['fone-idoso'] ?? NULL;
+    $foneIdoso = $_POST['telefone-idoso'] ?? NULL;
     $generoIdoso = $_POST['genero-idoso'] ?? NULL;
     $emailIdoso = $_POST['email-idoso'] ?? NULL;
+    $acompanhanteIdoso = $_POST['acomp-idoso'] ?? NULL;
+
+    //Endereço do idoso
     $cepIdoso = $_POST['cep-idoso'] ?? NULL;
     $ruaIdoso = $_POST['rua-idoso'] ?? NULL;
-    $bairroIdoso = $_POST['bairro-idoso'] ?? NULL;
+    $cidadeIdoso = $_POST['cidade-idoso'] ?? NULL;
     $estadoIdoso = $_POST['estado-idoso'] ?? NULL;
     $numeroIdoso = $_POST['numero-idoso'] ?? NULL;
     $complementoIdoso = $_POST['comple-idoso'] ?? NULL;
-    $acompanhanteIdoso = $_POST['acomp-idoso'] ?? NULL;
-
+    
     //Informações do acompanhante(caso selecionado)
     $nomeAcomp = $_POST['nome-acomp']  ?? NULL;
     $cpfAcomp = $_POST['cpf-acomp']  ?? NULL;
@@ -28,7 +30,7 @@
     // Verificando apenas se o usuario não clicar em cancelar
     if(!isset($botaoCancelar)){
         // Se não clicar, verificando se  todos foram adicionados
-        if(!empty($nomeIdoso && $dataNasciIdoso && $foneIdoso && $generoIdoso && $emailIdoso && $cepIdoso && $ruaIdoso && $bairroIdoso && $estadoIdoso && $numeroIdoso && $acompanhanteIdoso)){
+        if(!empty($nomeIdoso && $dataNasciIdoso && $foneIdoso && $generoIdoso && $emailIdoso && $cepIdoso && $ruaIdoso && $cidadeIdoso && $estadoIdoso && $numeroIdoso && $acompanhanteIdoso)){
 
             // Verificando e formatando CPF do idoso
             if(is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11){
@@ -78,6 +80,37 @@
                 mensagemAviso('Caso tenha certeza, apenas clique em Continue');
             }
 
+//             $idNaoExiste = !isset($dadosDoBanco->id);
+// 
+//             if($idNaoExiste){
+//                 $_SESSION["idoso"] = [
+//                     "id" => $dadosDoBanco->id,
+//                     "nome" => $dadosDoBanco->nome,
+//                     "cpf" => $dadosDoBanco->cpf,
+//                     "dataNascimento" => $dadosDoBanco->dataNascimento,
+//                     "telefone" => $dadosDoBanco->telefone,
+//                     "genero" => $dadosDoBanco->genero,
+//                     "email" => $dadosDoBanco->email,
+//                     "acompanhante" => $dadosDoBanco->acompanhante,
+//                 ];
+//                 $_SESSION["agenda"] = [
+//                     "cep" => $dadosDoBanco->cep,
+//                     "rua" => $dadosDoBanco->rua,
+//                     "cidade" => $dadosDoBanco->cidade,
+//                     "estado" => $dadosDoBanco->estado,
+//                     "numero" => $dadosDoBanco->numero,
+//                     "complemento" => $dadosDoBanco->complemento,
+//                 ];
+//                 $_SESSION["acompanhante"] = [
+//                     "nomeAcomp" => $dadosDoBanco->nomeAcomp,
+//                     "cpfAcomp" => $dadosDoBanco->cpfAcomp,
+//                     "telefoneAcomp" => $dadosDoBanco->telefoneAcomp,
+//                     "emailAcomp" => $dadosDoBanco->emailAcomp,
+//                 ];
+//             }
+            
+            echo "location.href='cadastrar/agendamento'";
+            exit;
             //se tudo der certo, fazer uma busca do id no banco
         } else{
             mensagemErro("Necessário preencher todos os campos");
@@ -85,11 +118,11 @@
     }
 
     if(isset($botaoContinuar)){
-        echo "<script>window.location.href='cadastrar/agendamento?<?php echo htmlspecialchars(SID);'</script>";
+        echo "<script>location.href='cadastrar/agendamento'</script>";
         exit;
     }
     if(isset($botaoCancelar)){
-        echo "<script>window.location.href='listar/vacina'</script>";
+        echo "<script>location.href='listar/vacina'</script>";
         exit;
     }
 

@@ -1,5 +1,5 @@
 <?php 
-//Informações do agendamento
+    //Informações do agendamento
     $dataAgend = $_POST['data-agend'] ?? NULL;
     $horarioAgend = $_POST['hora-agend'] ?? NULL;
 
@@ -12,15 +12,22 @@
         if($dataAgend < $dataAtual){
             mensagemErro("Necessário agendar um dia atual");   
         }
+        //Salvar no Session
+//         $idNaoExiste = !isset($dadosDoBanco->id);
+// 
+//         $_SESSION["agenda"] = [
+//             "data" => $dadosDoBanco->data,
+//             "horario" => $dadosDoBanco->horario,
+//         ];
     }
     
     if(isset($botaoVoltar)){
-        echo "<script>window.location.href='cadastrar/idoso'</script>";
+        echo "<script>location.href='cadastrar/idoso'</script>";
         exit;
     }
     if(isset($botaoConfirmar)){
         mensagemSucesso("Credenciais enviadas com sucesso!");
-        echo "<script>window.location.href='listar/vacina'</script>";
+        echo "<script>location.href='listar/vacina'</script>";
         exit;
     }
 ?>
