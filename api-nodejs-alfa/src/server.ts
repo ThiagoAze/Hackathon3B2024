@@ -1,10 +1,10 @@
 import express from "express";
-import router from ".";
+import routes from ".";
 
 const app = express();
 
 app.use(express.json());
-app.use(router)
+app.use(routes)
 
 const PORT = 3000;
 
