@@ -10,8 +10,8 @@
                 <input type="date" name="data-agend" require id="data-agend" class="form-control" placeholder="dd/mm/aaaa">
             </div>
             <div class="col">
-                <label for="hora-agend">Agende em um dos horários de sua preferência</label>
-                <select name="hora-agend" require id="hora-agend" class="form-select" aria-label="Default select example">
+                <label for="periodo-agend">Agende em um dos horários de sua preferência</label>
+                <select name="periodo-agend" require id="periodo-agend" class="form-select" aria-label="Default select example">
                     <option value="manha">Manhã: Entre ás 7:00 e 12:00</option>
                     <option value="tarde">Tarde: Entre ás 13:00 e 18:00</option>
                 </select>            
