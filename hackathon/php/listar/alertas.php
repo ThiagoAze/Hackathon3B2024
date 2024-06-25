@@ -23,7 +23,7 @@
 
                         if (data.length > 0) {
                             data.forEach(lembrete => {
-                                var dataInicio = new Date(lembrete.data_inicio);
+                                var dataInicio = new Date(lembrete.dataInicio);
                                 var dataAtual = new Date();
                                 var diffTime = Math.abs(dataAtual - dataInicio);
                                 var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -37,10 +37,10 @@
                                 lembretesContainer.innerHTML += `
                                     <div class="lembrete">
                                         <h3>${lembrete.nome}</h3>
-                                        <p><strong>Data de Início:</strong> ${lembrete.data_inicio}</p>
-                                        <p><strong>Data Final:</strong> ${lembrete.data_final}</p>
-                                        <p><strong>Idade Mínima:</strong> ${lembrete.idade_minima}</p>
-                                        <p><strong>Idade Máxima:</strong> ${lembrete.idade_maxima}</p>
+                                        <p><strong>Data de Início:</strong> ${lembrete.dataInicio}</p>
+                                        <p><strong>Data Final:</strong> ${lembrete.dataFinal}</p>
+                                        <p><strong>Idade Mínima:</strong> ${lembrete.idadeMinima}</p>
+                                        <p><strong>Idade Máxima:</strong> ${lembrete.idadeMaxima}</p>
                                         <p><strong>Status:</strong> ${mensagem}</p>
                                     </div>
                                 `;
