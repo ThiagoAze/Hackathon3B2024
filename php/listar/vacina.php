@@ -10,8 +10,10 @@ $buscaUsando = $_SESSION['busca'] ?? NULL;
 <h2>Confira as próximas vacinas</h2>
 <div class="row">
     <div class="col-3">
-        <div class="breadcrumb-vacina">
-            <a href="validar/listaVacina">Calendário de vacinação</a>
+        <div class="breadcrumb">
+            <?php
+            // buscar breadcrubm com node
+            ?>
         </div>
     </div>
     <div class="col-3">
@@ -43,7 +45,7 @@ foreach ($vacinas as $vacina) {
 ?>
 <div class="vacina">
     <h4><?= $vacina['nome'] ?></h4>
-  
+    
     <p>Idade: <?= $vacina['idade_max'], " - ", $vacina['idade_min'] ?></p>
     <p>Data de Início: <?= $vacina['data_inicio'] ?></p>
     <p>Data limite: <?= $vacina['data_limite'] ?></p>
