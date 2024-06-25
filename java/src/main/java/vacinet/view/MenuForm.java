@@ -20,9 +20,6 @@ public class MenuForm extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 550);
 
-
-
-
         JPanel painelEntrada = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 5, 5);
@@ -77,10 +74,11 @@ public class MenuForm extends JFrame{
 
     private void irIdosoView() {
         setVisible(false);
-        IdosoView form = null;
+        HistoricoSaudeView form = null;
 
-        form = new IdosoView(new Idoso(81, "Usuário 1", "25485433215", Date.valueOf("1960-07-14"), "15484411514",
-                    "emailteste@gmail.com", "whuyegsougueg", "M", false));
+        form = new HistoricoSaudeView(new Idoso(1, "Vinícius Sousa", "64402639867",
+                Date.valueOf("1947-07-24"), "44970554615",
+                    "vinisouza@gmail.com", "aaaaaaaa", "M", true));
 
         form.setVisible(true);
 
@@ -90,8 +88,9 @@ public class MenuForm extends JFrame{
         setVisible(false);
         AgenteView form = null;
         try {
-            form = new AgenteView(new Agente(2, "Agente", "00758951423", Date.valueOf("1999-10-10"), "12365478548", "Emailteste@gmail.com",
-                    "wdawdwdfrergrggr"));
+            form = new AgenteView(new Agente(2, "Vitor Correia", "35463634232",
+                    Date.valueOf("1998-07-21"), "34987656232", "vitorcorrea@gmail.com",
+                    "57tyr4E3ff1"));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

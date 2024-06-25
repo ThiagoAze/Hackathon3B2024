@@ -5,6 +5,7 @@ import vacinet.service.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
@@ -58,11 +59,11 @@ public class AgenteView extends JFrame {
     private JFormattedTextField campoDataAgenda;
     private JLabel labelHora;
     private JFormattedTextField campoHora;
-    private Agente agente;
+    private Agente agenteSalvo;
     private DateTimeFormatter formatter;
-    public AgenteView(Agente agenteCadastrado) throws ParseException {
+    public AgenteView(Agente agente) throws ParseException {
         formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        agente = agenteCadastrado;
+        agenteSalvo = agente;
         serviceAgenda = new AgendaService();
         serviceAgente = new AgenteService();
         serviceIdoso = new IdosoService();
@@ -84,12 +85,15 @@ public class AgenteView extends JFrame {
         painelEntrada.add(labelView, constraints);
 
         labelNome = new JLabel("Nome Completo:");
+        labelNome.setFont(new Font("titulo", 0, 15));
         constraints.gridx = 0;
         constraints.gridy = 1;
         painelEntrada.add(labelNome, constraints);
 
         campoNome = new JTextField(40);
+        campoNome.setText(agenteSalvo.getNome());
         campoNome.setEnabled(false);
+        campoNome.setFont(new Font("titulo", 0, 15));
         constraints.gridx = 1;
         constraints.gridy = 1;
         painelEntrada.add(campoNome, constraints);
@@ -203,7 +207,10 @@ public class AgenteView extends JFrame {
         tabelaDiasDisponiveis.setModel(carregarDadosDiaDisponivel());
         tabelaDiasDisponiveis.getSelectionModel().addListSelectionListener(e -> selecionarDia(e));
         tabelaDiasDisponiveis.setDefaultEditor(Object.class, null);
-
+        tabelaDiasDisponiveis.setAlignmentX(Component.CENTER_ALIGNMENT);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        tabelaDiasDisponiveis.setDefaultRenderer(Object.class, centerRenderer);
 
         JScrollPane scrollPane = new JScrollPane(tabelaDiasDisponiveis);
 
@@ -258,6 +265,10 @@ public class AgenteView extends JFrame {
         tabelaAgenda.setModel(carregarAgenda());
         tabelaAgenda.getSelectionModel().addListSelectionListener(e -> selecionarAgenda(e));
         tabelaAgenda.setDefaultEditor(Object.class, null);
+        tabelaAgenda.setAlignmentX(Component.CENTER_ALIGNMENT);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        tabelaAgenda.setDefaultRenderer(Object.class, centerRenderer);
 
 
         JScrollPane scrollPane = new JScrollPane(tabelaAgenda);
@@ -279,11 +290,9 @@ public class AgenteView extends JFrame {
         var quantVisitaValidada = Integer.parseInt(campoQuantVisita.getText());
         if (quantVisitaValidada < 0) throw new RuntimeException("Campo quantidade de visitas não pode ser menor que zero");
 
-        System.out.println(idDiaData);
-
         return (idDiaData == null)
-                ? new DiaDisponivel(agente.getId(), Date.valueOf(LocalDate.parse(campoDataDiaDisponivel.getText(), formatter)), escolhaPeriodoManha, escolhaPeriodoTarde, quantVisitaValidada)
-                : new DiaDisponivel(idDiaData, agente.getId(), Date.valueOf(LocalDate.parse(campoDataDiaDisponivel.getText(), formatter)), escolhaPeriodoManha, escolhaPeriodoTarde, quantVisitaValidada);
+                ? new DiaDisponivel(agenteSalvo.getId(), Date.valueOf(LocalDate.parse(campoDataDiaDisponivel.getText(), formatter)), escolhaPeriodoManha, escolhaPeriodoTarde, quantVisitaValidada)
+                : new DiaDisponivel(idDiaData, agenteSalvo.getId(), Date.valueOf(LocalDate.parse(campoDataDiaDisponivel.getText(), formatter)), escolhaPeriodoManha, escolhaPeriodoTarde, quantVisitaValidada);
     }
     private void executarSalvarDiaDisponivel() {
         try{
@@ -320,10 +329,9 @@ public class AgenteView extends JFrame {
         try{
             var agenda = construirAgenda();
             serviceAgenda.salvar(agenda);
-            var nomeVacina = serviceVacina.listarId(agenda.getIdVacina()).get(0);
+
             var nomeAviso = "Sua vacinação foi confirmada! Confira a Hora";
-            var descricaoAviso = "Sua vacinação de " + nomeVacina + " foi confirmada, " +
-                    "para informações sobre o horário confira o app";
+            var descricaoAviso = "Pedido de visita confirmada, para informações sobre o horário confira o app";
             serviceAviso.salvar(new Aviso(agenda.getIdIdoso(), false, nomeAviso, descricaoAviso));
             limparCamposAgenda();
 
@@ -358,7 +366,7 @@ public class AgenteView extends JFrame {
         model.addColumn("");
         model.addColumn("");
 
-        serviceDiaDisponivel.listarTodos(agente).forEach(diaDisponivel ->
+        serviceDiaDisponivel.listarTodos(agenteSalvo).forEach(diaDisponivel ->
                 model.addRow(new Object[]{
                         diaDisponivel.getId(),
                         diaDisponivel.getData().toString(),
@@ -387,12 +395,12 @@ public class AgenteView extends JFrame {
         model.addColumn("Numero");
         model.addColumn("Complemento");
         model.addColumn("Vacina");
-        model.addColumn("Status visita");
         model.addColumn("Status Agendamento");
-        model.addColumn("Editar");
-        model.addColumn("Excluir");
+        model.addColumn("Status visita");
+        model.addColumn("");
+        model.addColumn("");
 
-        serviceAgenda.listarAgente(agente.getId()).forEach(agenda ->
+        serviceAgenda.listarAgente(agenteSalvo.getId()).forEach(agenda ->
                 model.addRow(new Object[]{
                         agenda.getId(),
                         agenda.getData().toString(),
@@ -454,6 +462,11 @@ public class AgenteView extends JFrame {
 
                     tabelaDiasDisponiveis.setModel(carregarDadosDiaDisponivel());
                 } else if (selectedCol == 6) {
+                    var agenda = construirAgenda();
+                    var nomeAviso = "Sua vacinação foi confirmada! Confira a Hora";
+                    var descricaoAviso = "Pedido de visita confirmada, para informações sobre o horário confira o app";
+                    serviceAviso.salvar(new Aviso(agenda.getIdIdoso(), false, nomeAviso, descricaoAviso));
+
                     serviceDiaDisponivel.deletar(serviceDiaDisponivel.listarId(idDiaData).get(0));
                     tabelaDiasDisponiveis.setModel(carregarDadosDiaDisponivel());
                 } else {

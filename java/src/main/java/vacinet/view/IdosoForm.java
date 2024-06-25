@@ -307,7 +307,6 @@ public class IdosoForm extends JFrame{
                 HistoricoSaudeView form = null;
 
                 service.salvar(idoso);
-                System.out.println(idoso);
                 idoso.setId(service.listarLogin(idoso.getCpf(), idoso.getSenha()).getId());
                 form = new HistoricoSaudeView(idoso);
                 form.setVisible(true);

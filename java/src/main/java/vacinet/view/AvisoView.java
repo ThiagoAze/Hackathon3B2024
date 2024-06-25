@@ -65,14 +65,13 @@ public class AvisoView extends JFrame {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 5, 5);
 
-        JTable tabelaProximaVacina = new JTable();
-        tabelaProximaVacina.setModel(carregarDadosAlerta());
-        tabelaProximaVacina.getSelectionModel().addListSelectionListener(e -> selecionarAlerta(e));
-        tabelaProximaVacina.setDefaultEditor(Object.class, null);
-
-
-        JScrollPane scrollPane = new JScrollPane(tabelaProximaVacina);
-
+        JTable tabelaAlerta = new JTable();
+        tabelaAlerta.setModel(carregarDadosAlerta());
+        tabelaAlerta.getSelectionModel().addListSelectionListener(e -> selecionarAlerta(e));
+        tabelaAlerta.setDefaultEditor(Object.class, null);
+        tabelaAlerta.setFont(new Font("tabela", 0, 15));
+        JScrollPane scrollPane = new JScrollPane(tabelaAlerta);
+        tabelaAlerta.setPreferredScrollableViewportSize(new Dimension(1200, 500));
         painelAlerta.add(scrollPane);
         return painelAlerta;
     }
@@ -86,7 +85,6 @@ public class AvisoView extends JFrame {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Título");
         model.addColumn("Descrição");
-        System.out.println(serviceAviso.listarIdIdoso(idosoSalvo.getId()));
         serviceAviso.listarIdIdoso(idosoSalvo.getId()).forEach(aviso ->
                 model.addRow(new Object[]{
                         aviso.getNome(),
@@ -134,7 +132,9 @@ public class AvisoView extends JFrame {
         painelMenu.add(labelNome, constraints);
 
         campoNome = new JTextField(40);
+        campoNome.setText(idosoSalvo.getNome());
         campoNome.setEnabled(false);
+        campoNome.setFont(new Font("titulo", 1, 15));
         constraints.gridx = 1;
         constraints.gridy = 1;
         painelMenu.add(campoNome, constraints);

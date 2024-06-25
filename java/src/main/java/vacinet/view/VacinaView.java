@@ -10,12 +10,15 @@ import vacinet.service.VacinaService;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.sql.Date;
+import java.sql.Time;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -129,6 +132,8 @@ public class VacinaView extends JFrame {
         campoHoraProximaVacina.setPreferredSize(new Dimension(225, 20));
         campoHoraProximaVacina.setMaximumSize(new Dimension(80, 50));
         painelHora.add(campoHoraProximaVacina);
+
+        painelHora.setMaximumSize(new Dimension(400, 50));
         painelProximaVacina.add(painelHora);
         
         botaoAtualizarProximaVacina = new JButton("Salvar");
@@ -142,7 +147,9 @@ public class VacinaView extends JFrame {
         tabelaProximaVacina.setModel(carregarDadosProximaVacina());
         tabelaProximaVacina.getSelectionModel().addListSelectionListener(e -> selecionarProximaVacina(e));
         tabelaProximaVacina.setDefaultEditor(Object.class, null);
-
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        tabelaProximaVacina.setDefaultRenderer(Object.class, centerRenderer);
 
         JScrollPane scrollPane = new JScrollPane(tabelaProximaVacina);
 
@@ -164,7 +171,9 @@ public class VacinaView extends JFrame {
         tabelaIndicacao.setModel(carregarDadosIndicacao());
         tabelaIndicacao.getSelectionModel().addListSelectionListener(e -> selecionarIndicacao(e));
         tabelaIndicacao.setDefaultEditor(Object.class, null);
-
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        tabelaIndicacao.setDefaultRenderer(Object.class, centerRenderer);
 
         JScrollPane scrollPane = new JScrollPane(tabelaIndicacao);
 
@@ -204,8 +213,8 @@ public class VacinaView extends JFrame {
         model.addColumn("Hora estimada");
         model.addColumn("Vacina");
         model.addColumn("Nome do Agente");
-        model.addColumn("Editar");
-        model.addColumn("Excluir");
+        model.addColumn("");
+        model.addColumn("");
         var dataHoje = LocalDate.now();
         var dataNascimento = idosoSalvo.getDataNascimento().toLocalDate();
         var idade = Period.between(dataNascimento, dataHoje).getYears();
@@ -225,6 +234,24 @@ public class VacinaView extends JFrame {
         return model;
     }
 
+    private LocalDate validacaoData(String valor, String CAMPO, Date dataLimite){
+            if (valor.equals("  /  /    ")) throw new RuntimeException("Campo %s não pode ser vazio".formatted(CAMPO));
+            if (valor.isBlank()) throw new RuntimeException("Campo %s não pode ser espaço".formatted(CAMPO));
+            var data = LocalDate.parse(valor, formatter);
+
+            var dataHoje = LocalDate.now();
+
+            var dataLimiteLocalDate = LocalDate.parse(dataLimite.toString());
+
+            if (data.isBefore(dataHoje)) {
+                throw new RuntimeException("Campo %s não pode ser anterior a hoje".formatted(CAMPO));
+            } else if (data.isAfter(dataLimiteLocalDate)) {
+                throw new RuntimeException("Campo %s não pode ser posterior à data limite".formatted(CAMPO));
+            }
+
+            return data;
+    }
+
     private void selecionarProximaVacina(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             int selectedRow = tabelaProximaVacina.getSelectedRow();
@@ -232,13 +259,22 @@ public class VacinaView extends JFrame {
             if (selectedRow != -1) {
 
                 var id = (Integer) tabelaProximaVacina.getValueAt(selectedRow, 0);
-                var dataProximaVacina = (String) tabelaProximaVacina.getValueAt(selectedRow, 1);
-                var horaProximaVacina = (String) tabelaProximaVacina.getValueAt(selectedRow, 2);
+                var data = (Date) Date.valueOf(tabelaProximaVacina.getValueAt(selectedRow, 1).toString());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                var dataFormatada = sdf.format(data);
+                String horaProximaVacina;
+                try {
+                    horaProximaVacina = (String) tabelaProximaVacina.getValueAt(selectedRow, 2);
+                } catch (Exception eh) {
+                    horaProximaVacina = null;
+                }
+
 
                 if (selectedCol == 5) {
-                    
+
+
                     idAgenda = id;
-                    campoDataProximaVacina.setText(dataProximaVacina);
+                    campoDataProximaVacina.setText(dataFormatada);
                     campoHoraProximaVacina.setText(horaProximaVacina);
                     serviceAgenda.salvar(serviceAgenda.listarId(id).get(0));
                     tabelaProximaVacina.setModel(carregarDadosProximaVacina());
@@ -257,6 +293,15 @@ public class VacinaView extends JFrame {
     }
 
     private void executarSalvarProximaVacina() {
+        if (idAgenda != null) {
+            var agenda = serviceAgenda.listarId(idAgenda).get(0);
+            agenda.setData(Date.valueOf(campoDataProximaVacina.getText()));
+            agenda.setHora(Time.valueOf(campoHoraProximaVacina.getText()));
+            agenda.setStatusAgendamento(false);
+            serviceAgenda.salvar(agenda);
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um agendamento para alterar o horário");
+        }
     }
 
     private void selecionarIndicacao(ListSelectionEvent e) {
@@ -265,7 +310,6 @@ public class VacinaView extends JFrame {
             if (selectedRow != -1) {
 
                 var vacina = serviceVacina.listarId((Integer) tabelaIndicacao.getValueAt(selectedRow, 0)).get(0);
-                System.out.println(vacina);
                 VacinaForm form = null;
                 try {
                     form = new VacinaForm(idosoSalvo, vacina);
@@ -318,7 +362,9 @@ public class VacinaView extends JFrame {
         painelMenu.add(labelNome, constraints);
 
         campoNome = new JTextField(40);
+        campoNome.setText(idosoSalvo.getNome());
         campoNome.setEnabled(false);
+        campoNome.setFont(new Font("titulo", 1, 15));
         constraints.gridx = 1;
         constraints.gridy = 1;
         painelMenu.add(campoNome, constraints);

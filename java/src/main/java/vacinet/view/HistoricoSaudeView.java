@@ -7,11 +7,14 @@ import vacinet.service.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.sql.Date;
 import java.text.ParseException;
+import java.time.LocalDate;
 
 public class HistoricoSaudeView extends JFrame {
     private AlergiaService serviceAlergia;
@@ -102,7 +105,7 @@ public class HistoricoSaudeView extends JFrame {
 
         labelHistoricoVacina = new JLabel("Confira suas últimas vacinas tomadas");
         labelHistoricoVacina.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelHistoricoVacina.setFont(new Font("titulo", 1, 20));
+        labelHistoricoVacina.setFont(new Font("titulo", 1, 15));
         labelHistoricoVacina.setPreferredSize(new Dimension(70, 60));
         labelHistoricoVacina.setMaximumSize(new Dimension(500, 60));
 
@@ -128,7 +131,7 @@ public class HistoricoSaudeView extends JFrame {
         model.addColumn("Hora");
         model.addColumn("Agente");
 
-        serviceAgenda.listarIdoso(idosoSalvo).forEach(agenda ->
+        serviceAgenda.listarUltimaVacina(idosoSalvo.getId(), Date.valueOf(LocalDate.now().toString())).forEach(agenda ->
                 model.addRow(new Object[]{
                         serviceVacina.listarId(agenda.getIdVacina()).get(0).getNome(),
                         serviceVacina.listarId(agenda.getIdVacina()).get(0).getDoenca(),
@@ -147,7 +150,7 @@ public class HistoricoSaudeView extends JFrame {
 
         labelProblemaSaude = new JLabel("Adicione problemas de saúde que o idoso possui");
         labelProblemaSaude.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelProblemaSaude.setFont(new Font("titulo", 1, 20));
+        labelProblemaSaude.setFont(new Font("titulo", 1, 15));
         labelProblemaSaude.setPreferredSize(new Dimension(70, 60));
         labelProblemaSaude.setMaximumSize(new Dimension(500, 60));
 
@@ -163,11 +166,14 @@ public class HistoricoSaudeView extends JFrame {
 
         labelNomeProblemaSaude = new JLabel("Problema de Saude:");
         labelNomeProblemaSaude.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelNomeProblemaSaude.setPreferredSize(new Dimension(120, 20));
+
         painelNomeProblemaSaude.add(labelNomeProblemaSaude);
 
         campoNomeProblemaSaude = new JTextField(20);
         campoNomeProblemaSaude.setAlignmentX(Component.CENTER_ALIGNMENT);
         campoNomeProblemaSaude.setPreferredSize(new Dimension(225, 20));
+        campoNomeProblemaSaude.setMaximumSize(new Dimension(80, 50));
 
         painelNomeProblemaSaude.add(campoNomeProblemaSaude);
         painelNomeProblemaSaude.setMaximumSize(new Dimension(400, 50));
@@ -179,12 +185,14 @@ public class HistoricoSaudeView extends JFrame {
 
         labelObsProblemaSaude = new JLabel("Observação:");
         labelObsProblemaSaude.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelObsProblemaSaude.setPreferredSize(new Dimension(120, 20));
 
         painelObsProblemaSaude.add(labelObsProblemaSaude);
 
         campoObsProblemaSaude = new JTextField(20);
         campoObsProblemaSaude.setAlignmentX(Component.CENTER_ALIGNMENT);
-        campoObsProblemaSaude.setPreferredSize(new Dimension(225, 20));
+        campoObsProblemaSaude.setPreferredSize(new Dimension(20, 20));
+        campoObsProblemaSaude.setMaximumSize(new Dimension(80, 50));
 
         painelObsProblemaSaude.add(campoObsProblemaSaude);
         painelObsProblemaSaude.setMaximumSize(new Dimension(400, 50));
@@ -194,6 +202,7 @@ public class HistoricoSaudeView extends JFrame {
         botaoSalvarProblemaSaude = new JButton("Salvar");
         botaoSalvarProblemaSaude.addActionListener(e -> executarSalvarProblemaSaude());
         botaoSalvarProblemaSaude.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botaoSalvarProblemaSaude.setMaximumSize(new Dimension(200, 20));
         painelProblemaSaude.add(botaoSalvarProblemaSaude);
 
 
@@ -201,7 +210,10 @@ public class HistoricoSaudeView extends JFrame {
         tabelaProblemaSaude.setModel(carregarDadosProblemaSaude());
         tabelaProblemaSaude.getSelectionModel().addListSelectionListener(e -> selecionarProblemaSaude(e));
         tabelaProblemaSaude.setDefaultEditor(Object.class, null);
-
+        tabelaProblemaSaude.setAlignmentX(Component.CENTER_ALIGNMENT);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        tabelaProblemaSaude.setDefaultRenderer(Object.class, centerRenderer);
 
         JScrollPane scrollPane = new JScrollPane(tabelaProblemaSaude);
 
@@ -215,8 +227,8 @@ public class HistoricoSaudeView extends JFrame {
         model.addColumn("Id");
         model.addColumn("Nome");
         model.addColumn("Observação");
-        model.addColumn("Editar");
-        model.addColumn("Excluir");
+        model.addColumn("");
+        model.addColumn("");
 
         serviceProblemaSaude.listarTodos(idosoSalvo.getId()).forEach(problemaSaude ->
                 model.addRow(new Object[]{
@@ -255,18 +267,20 @@ public class HistoricoSaudeView extends JFrame {
             int selectedCol = tabelaProblemaSaude.getSelectedColumn();
             if (selectedRow != -1) {
 
-                idProblemaSaude = (Integer) tabelaProblemaSaude.getValueAt(selectedRow, 0);
-                var nomeAlergia = (String) tabelaProblemaSaude.getValueAt(selectedRow, 1);
-                var obsAlergia = (String) tabelaProblemaSaude.getValueAt(selectedRow, 2);
+                var nomeProblemaSaude = (String) tabelaProblemaSaude.getValueAt(selectedRow, 1);
+                var obsProblemaSaude = (String) tabelaProblemaSaude.getValueAt(selectedRow, 2);
 
                 if (selectedCol == 3) {
-                    campoNomeProblemaSaude.setText(nomeAlergia);
-                    campoObsProblemaSaude.setText(obsAlergia);
+                    idProblemaSaude = (Integer) tabelaProblemaSaude.getValueAt(selectedRow, 0);
+                    campoNomeProblemaSaude.setText(nomeProblemaSaude);
+                    campoObsProblemaSaude.setText(obsProblemaSaude);
 
-
-                } else if (selectedCol == 4) {
-                    serviceProblemaSaude.deletar(new ProblemaSaude(idProblemaSaude, idosoSalvo.getId(), nomeAlergia, obsAlergia));
                     tabelaProblemaSaude.setModel(carregarDadosProblemaSaude());
+                } else if (selectedCol == 4) {
+                    idProblemaSaude = (Integer) tabelaProblemaSaude.getValueAt(selectedRow, 0);
+                    serviceProblemaSaude.deletar(new ProblemaSaude(idProblemaSaude, idosoSalvo.getId(), nomeProblemaSaude, obsProblemaSaude));
+                    tabelaProblemaSaude.setModel(carregarDadosProblemaSaude());
+
                 } else {
                     tabelaProblemaSaude.setModel(carregarDadosProblemaSaude());
                 }
@@ -280,27 +294,28 @@ public class HistoricoSaudeView extends JFrame {
 
         labelAlergia = new JLabel("Adicione alergias que o idoso possui");
         labelAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
-        labelAlergia.setFont(new Font("titulo", 1, 20));
+        labelAlergia.setFont(new Font("titulo", 1, 15));
         labelAlergia.setPreferredSize(new Dimension(70, 60));
         labelAlergia.setMaximumSize(new Dimension(500, 60));
 
         painelAlergia.add(labelAlergia);
-
-        JPanel painelNomeAlergia = new JPanel(new FlowLayout());
-
-        labelNomeAlergia = new JLabel("Alergia:");
-        labelNomeAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         botaoAdicionarAlergia = new JButton("Adicionar");
         botaoAdicionarAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
         botaoAdicionarAlergia.addActionListener(e -> limparCamposAlergia());
         painelAlergia.add(botaoAdicionarAlergia);
 
+        JPanel painelNomeAlergia = new JPanel(new FlowLayout());
+
+        labelNomeAlergia = new JLabel("Alergia:");
+        labelNomeAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
+        labelNomeAlergia.setPreferredSize(new Dimension(90, 20));
         painelNomeAlergia.add(labelNomeAlergia);
 
         campoNomeAlergia = new JTextField(20);
         campoNomeAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
-        campoNomeAlergia.setMaximumSize(new Dimension(400, 20));
+        campoNomeAlergia.setPreferredSize(new Dimension(90, 20));
+        campoNomeAlergia.setMaximumSize(new Dimension(80, 50));
 
         painelNomeAlergia.setMaximumSize(new Dimension(400, 50));
 
@@ -313,11 +328,13 @@ public class HistoricoSaudeView extends JFrame {
 
         labelObsAlergia = new JLabel("Observação:");
         labelObsAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        labelObsAlergia.setPreferredSize(new Dimension(90, 20));
         painelObsAlergia.add(labelObsAlergia);
 
         campoObsAlergia = new JTextField(20);
         campoObsAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
+        campoObsAlergia.setPreferredSize(new Dimension(90, 20));
+        campoObsAlergia.setMaximumSize(new Dimension(400, 20));
 
         painelObsAlergia.setMaximumSize(new Dimension(400, 50));
 
@@ -328,6 +345,7 @@ public class HistoricoSaudeView extends JFrame {
         botaoSalvarAlergia = new JButton("Salvar");
         botaoSalvarAlergia.addActionListener(e -> executarSalvarAlergia());
         botaoSalvarAlergia.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botaoSalvarAlergia.setMaximumSize(new Dimension(200, 50));
         painelAlergia.add(botaoSalvarAlergia);
 
 
@@ -335,7 +353,9 @@ public class HistoricoSaudeView extends JFrame {
         tabelaAlergia.setModel(carregarDadosAlergia());
         tabelaAlergia.getSelectionModel().addListSelectionListener(e -> selecionarAlergia(e));
         tabelaAlergia.setDefaultEditor(Object.class, null);
-
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        tabelaAlergia.setDefaultRenderer(Object.class, centerRenderer);
 
         JScrollPane scrollPane = new JScrollPane(tabelaAlergia);
 
@@ -370,18 +390,21 @@ public class HistoricoSaudeView extends JFrame {
             int selectedRow = tabelaAlergia.getSelectedRow();
             int selectedCol = tabelaAlergia.getSelectedColumn();
             if (selectedRow != -1) {
-                idAlergia = (Integer) tabelaAlergia.getValueAt(selectedRow, 0);
+
                 var nomeAlergia = (String) tabelaAlergia.getValueAt(selectedRow, 1);
                 var obsAlergia = (String) tabelaAlergia.getValueAt(selectedRow, 2);
 
 
                 if (selectedCol == 3) {
+                    idAlergia = (Integer) tabelaAlergia.getValueAt(selectedRow, 0);
                     campoNomeAlergia.setText(nomeAlergia);
                     campoObsAlergia.setText(obsAlergia);
                     tabelaAlergia.setModel(carregarDadosAlergia());
                 } else if (selectedCol == 4) {
+                    idAlergia = (Integer) tabelaAlergia.getValueAt(selectedRow, 0);
                     serviceAlergia.deletar(new Alergia(idAlergia, idosoSalvo.getId(), nomeAlergia, obsAlergia));
                     tabelaAlergia.setModel(carregarDadosAlergia());
+
                 } else {
                     tabelaAlergia.setModel(carregarDadosAlergia());
                 }
@@ -394,8 +417,8 @@ public class HistoricoSaudeView extends JFrame {
         model.addColumn("Id");
         model.addColumn("Nome");
         model.addColumn("Observaçao");
-        model.addColumn("Editar");
-        model.addColumn("Excluir");
+        model.addColumn("");
+        model.addColumn("");
 
         serviceAlergia.listarTodos(idosoSalvo.getId()).forEach(alergia ->
                 model.addRow(new Object[]{
@@ -448,7 +471,9 @@ public class HistoricoSaudeView extends JFrame {
         painelMenu.add(labelNome, constraints);
 
         campoNome = new JTextField(40);
+        campoNome.setText(idosoSalvo.getNome());
         campoNome.setEnabled(false);
+        campoNome.setFont(new Font("titulo", 0, 15));
         constraints.gridx = 1;
         constraints.gridy = 1;
         painelMenu.add(campoNome, constraints);

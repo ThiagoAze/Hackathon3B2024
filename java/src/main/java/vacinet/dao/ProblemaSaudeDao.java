@@ -35,11 +35,13 @@ public class ProblemaSaudeDao {
     }
 
     public void atualizar(ProblemaSaude problemaSaude) throws SQLException {
-        String sql = "update problemaSaude set nome = ?, set observacao = ?  where id = ?";
+        String sql = "update problemaSaude set nome = ?, observacao = ?  where id = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, problemaSaude.getNome());
         ps.setString(2, problemaSaude.getObs());
         ps.setInt(3, problemaSaude.getId());
+
+        ps.execute();
     }
 
     public void deletar(int id) throws SQLException {

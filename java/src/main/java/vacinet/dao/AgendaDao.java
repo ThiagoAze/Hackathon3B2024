@@ -228,4 +228,63 @@ public class AgendaDao {
         rs.close();
         return agendas;
     }
+
+    public List<Agenda> listarUltimaVacina(Integer idIdoso, Date dataHoje) throws SQLException {
+        List<Agenda> agendas = new ArrayList<Agenda>();
+
+        String sql = "select * from agenda where idIdoso = ? and data < ? or statusVisita = true order by data, horario desc";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, idIdoso);
+        statement.setDate(2, dataHoje);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            agendas.add(new Agenda(
+                    rs.getInt("id"),
+                    rs.getInt("idAgenteSaude"),
+                    rs.getInt("idIdoso"),
+                    rs.getInt("idVacina"),
+                    rs.getDate("data"),
+                    rs.getTime("horario"),
+                    rs.getString("rua"),
+                    rs.getString("cep"),
+                    rs.getInt("numero"),
+                    rs.getString("complemento"),
+                    rs.getString("estado"),
+                    rs.getString("cidade"),
+                    rs.getBoolean("statusAgendamento"),
+                    rs.getBoolean("statusVisita"),
+                    rs.getString("periodo")));
+        }
+        rs.close();
+        return agendas;
+    }
+
+    public List<Agenda> listarEndereco(Integer idIdoso) throws SQLException {
+        List<Agenda> agendas = new ArrayList<Agenda>();
+
+        String sql = "select * from agenda where idIdoso = ? order by data desc";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, idIdoso);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            agendas.add(new Agenda(
+                    rs.getInt("id"),
+                    rs.getInt("idAgenteSaude"),
+                    rs.getInt("idIdoso"),
+                    rs.getInt("idVacina"),
+                    rs.getDate("data"),
+                    rs.getTime("horario"),
+                    rs.getString("rua"),
+                    rs.getString("cep"),
+                    rs.getInt("numero"),
+                    rs.getString("complemento"),
+                    rs.getString("estado"),
+                    rs.getString("cidade"),
+                    rs.getBoolean("statusAgendamento"),
+                    rs.getBoolean("statusVisita"),
+                    rs.getString("periodo")));
+        }
+        rs.close();
+        return agendas;
+    }
 }

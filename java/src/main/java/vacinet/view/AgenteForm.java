@@ -198,7 +198,7 @@ public class AgenteForm extends JFrame {
             JOptionPane.showMessageDialog(this, "cadastrado");
             try {
                 var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                Agente agente = new Agente(campoNome.getText(), campoNome.getText(), Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), campoEmail.getText(), foneBanco, campoSenha.getText());
+                Agente agente = new Agente(campoNome.getText(), formatarNumeros(campoCpf.getText()), Date.valueOf(LocalDate.parse(campoDataNascimento.getText(), formatter)), foneBanco, campoEmail.getText(), campoSenha.getText());
                 service.salvar(agente);
                 agente.setId(0);
                 setVisible(false);

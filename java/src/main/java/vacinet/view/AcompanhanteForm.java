@@ -169,8 +169,8 @@ public class AcompanhanteForm extends JFrame {
         validarSenha(campoSenha.getText());
         if (permitirCadastro) {
             JOptionPane.showMessageDialog(this, "Mandando para outra tela");
-            System.out.println("-------");
             serviceIdoso.salvar(idosoSalvo);
+
             idosoSalvo.setId(serviceIdoso.listarLogin(idosoSalvo.getCpf(), idosoSalvo.getSenha()).getId());
 
             Acompanhante acompanhante = new Acompanhante(idosoSalvo.getId(), campoNome.getText(), cpfBanco, foneBanco, campoEmail.getText(), campoSenha.getText());

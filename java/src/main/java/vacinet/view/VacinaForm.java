@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 public class VacinaForm extends JFrame{
     private AgendaService serviceAgenda;
@@ -137,7 +138,7 @@ public class VacinaForm extends JFrame{
         painelEntrada.add(campoComplemento, constraints);
 
         botaoBuscar = new JButton("Buscar");
-        botaoBuscar.addActionListener(e -> cancelar());
+        botaoBuscar.addActionListener(e -> buscar());
         constraints.gridx = 2;
         constraints.gridy = 4;
         painelEntrada.add(botaoBuscar, constraints);
@@ -167,19 +168,33 @@ public class VacinaForm extends JFrame{
 
         botaCancelar = new JButton("Cancelar");
         botaCancelar.addActionListener(e -> cancelar());
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 10;
         painelEntrada.add(botaCancelar, constraints);
 
         botaoAgendar = new JButton("Agendar");
         botaoAgendar.addActionListener(e -> agendar());
-        constraints.gridx = 1;
+        constraints.gridx = 2;
         constraints.gridy = 10;
         painelEntrada.add(botaoAgendar, constraints);
 
         getContentPane().add(painelEntrada, BorderLayout.CENTER);
         setLocationRelativeTo(null);
 
+    }
+
+    private void buscar() {
+        var ultimaAgenda = serviceAgenda.listarEndereco(idosoSalvo);
+
+        if (ultimaAgenda.equals(null)) {
+            JOptionPane.showMessageDialog(this, "CEP não encontrado");
+        } else {
+            campoCep.setText(ultimaAgenda.getCep());
+            campoNumero.setText(String.valueOf(ultimaAgenda.getNumero()));
+            campoRua.setText(ultimaAgenda.getRua());
+            campoCidade.setText(ultimaAgenda.getCidade());
+            campoComplemento.setText(ultimaAgenda.getComplemento());
+        }
     }
 
     public String escolhaPeriodo(Integer periodoEscolhidoIndex){
@@ -256,7 +271,7 @@ public class VacinaForm extends JFrame{
                 throw new RuntimeException("Campo %s não pode ser posterior à data limite".formatted(CAMPO));
             }
 
-            var diaDisponivel = validarDiaDisponivel(Date.valueOf(LocalDate.parse(campoData.getText(), formatter)));
+            diaDisponivel = validarDiaDisponivel(Date.valueOf(LocalDate.parse(campoData.getText(), formatter)));
             return data;
         } catch (RuntimeException re) {
             permitirAgendamento = false;
@@ -285,11 +300,8 @@ public class VacinaForm extends JFrame{
 
     public DiaDisponivel validarDiaDisponivel(Date valor) {
         try {
-            System.out.println(valor);
             var agentesManha = serviceDiaDisponivel.listarPeriodoManhaDia(valor);
             var agentesTarde = serviceDiaDisponivel.listarPeriodoTardeDia(valor);
-            System.out.println(agentesManha);
-            System.out.println(agentesTarde);
             if (escolhaPeriodo(boxPeriodo.getSelectedIndex()) == "manha") {
                 if (agentesManha.size() != 0){
                     return agentesManha.get(0);
@@ -330,9 +342,6 @@ public class VacinaForm extends JFrame{
 
 
         if (permitirAgendamento){
-            //System.out.println(serviceDiaDisponivel.lis);
-
-
             serviceAgenda.salvar(new Agenda(diaDisponivel.getIdAgente(), idosoSalvo.getId(), vacinaSalva.getId(),
                     Date.valueOf(LocalDate.parse(campoData.getText(), formatter)), null, campoRua.getText(), formatarNumeros(campoCep.getText()),
                 numero, campoComplemento.getText(), escolhaEstado(boxEstado.getSelectedIndex()), campoCidade.getText(), false, false, escolhaPeriodo(boxPeriodo.getSelectedIndex())));
@@ -341,7 +350,7 @@ public class VacinaForm extends JFrame{
     }
 
     public void cancelar() {
-
+        setVisible(false);
     }
 
 }

@@ -64,10 +64,30 @@ public class AgendaService {
         }
     }
 
+    public Agenda listarEndereco(Idoso idoso) {
+        try {
+            var dao = new AgendaDao();
+            return dao.listarEndereco(idoso.getId()).get(0);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public List<Agenda> listarProximaVacina(Integer idIdoso, Date dataHoje) {
         try {
             var dao = new AgendaDao();
             return dao.listarProximaVacina(idIdoso, dataHoje);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    public List<Agenda> listarUltimaVacina(Integer idIdoso, Date dataHoje) {
+        try {
+            var dao = new AgendaDao();
+            return dao.listarUltimaVacina(idIdoso, dataHoje);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return Collections.emptyList();
