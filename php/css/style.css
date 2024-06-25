@@ -43,6 +43,9 @@ nav ul li a{
     text-decoration: none;
     color: #000000;
 }
+a.logo-header {
+    font-size: 2em;
+}
 
 /* Footer */
 footer{
@@ -52,6 +55,7 @@ footer{
 }
 .desenvolvedores{
     text-align: center;
+    line-height: .7em;
 }
 .menu-footer{
     text-align: center;

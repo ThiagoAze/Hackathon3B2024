@@ -1,31 +1,24 @@
 import { Router, Request, Response } from "express";
-import knexInstance from "../database/knex";
+import knexInstance from "./../../knexfile";
 
 const vaccinesRouter = Router();
 
 vaccinesRouter.post("/", async (req: Request, res: Response) => {
-  console.log("essa rota cadastra uma vacina");
+
+  res.json({ message: 'essa rota cadastra uma vacina' });
 });
 
 vaccinesRouter.get("/", async (req: Request, res: Response) => {
-  const vaccines = await knexInstance("vacina").select("*");
-  res.json(vaccines);
+  res.json({ message: 'Hello from Node.js!' });
 });
 
 vaccinesRouter.put("/:id", async (req: Request, res: Response) => {
-  console.log("Essa rota edita vacina por id");
+  res.json({ message: 'essa rota atualiza uma vacina' });
 });
 
 vaccinesRouter.delete("/:id", async (req: Request, res: Response) => {
-  console.log("Esta rota essta deletando uma vacina por id ");
-});
+  res.json({ message: 'essa rota deleta uma vacina' });
 
-vaccinesRouter.get("/:id", async (req: Request, res: Response) => {
-  const id = req.params.id;
-  
-  const vaccine = await knexInstance("vacina").where("id", id);
-  
-  res.json(vaccine);
 });
 
 export default vaccinesRouter;

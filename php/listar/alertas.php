@@ -12,6 +12,7 @@
         function carregarLembretes() {
             var xhr = new XMLHttpRequest();
 
+
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
@@ -20,6 +21,7 @@
 
                         // Limpar o conteúdo antes de adicionar novos lembretes
                         lembretesContainer.innerHTML = '';
+
 
                         if (data.length > 0) {
                             data.forEach(lembrete => {
@@ -33,6 +35,7 @@
                                 } else {
                                     mensagem = `lançado hoje`;
                                 }
+
 
                                 lembretesContainer.innerHTML += `
                                     <div class="lembrete">
@@ -62,3 +65,4 @@
         // Chamar a função para carregar os lembretes ao carregar a página
         window.onload = carregarLembretes;
     </script>
+

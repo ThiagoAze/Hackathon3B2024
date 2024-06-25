@@ -1,39 +1,46 @@
 <?php
+    //Informações do idoso 
+    $nomeIdoso = $_POST['nome-idoso'] ?? NULL;
+    $cpfIdoso = $_POST['cpf-idoso'] ?? NULL;
+    $dataNasciIdoso = $_POST['data-nasci-idoso'] ?? NULL;
+    $foneIdoso = $_POST['telefone-idoso'] ?? NULL;
+    $generoIdoso = $_POST['genero-idoso'] ?? NULL;
+    $emailIdoso = $_POST['email-idoso'] ?? NULL;
+    $acompanhanteIdoso = $_POST['acomp-idoso'] ?? NULL;
+
+    //codigo get:
+    /*$url = "localhost:3000/php/";
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $data = json_decode($response);
+    echo $data->message;*/
 
 
-// Função para exibir mensagens de aviso
+    //Endereço do idoso
+    $cepIdoso = $_POST['cep-idoso'] ?? NULL;
+    $ruaIdoso = $_POST['rua-idoso'] ?? NULL;
+    $cidadeIdoso = $_POST['cidade-idoso'] ?? NULL;
+    $estadoIdoso = $_POST['estado-idoso'] ?? NULL;
+    $numeroIdoso = $_POST['numero-idoso'] ?? NULL;
+    $complementoIdoso = $_POST['comple-idoso'] ?? NULL;
+    
+    //Informações do acompanhante(caso selecionado)
+    $nomeAcomp = $_POST['nome-acomp']  ?? NULL;
+    $cpfAcomp = $_POST['cpf-acomp']  ?? NULL;
+    $foneAcomp = $_POST['fone-acomp']  ?? NULL;
+    $emailAcomp = $_POST['email-acomp']  ?? NULL;
 
-// Verificar se o formulário foi submetido
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Informações do idoso
-    $nomeIdoso = $_POST['nome-idoso'] ?? '';
-    $cpfIdoso = $_POST['cpf-idoso'] ?? '';
-    $dataNasciIdoso = $_POST['data-nasci-idoso'] ?? '';
-    $foneIdoso = $_POST['fone-idoso'] ?? '';
-    $generoIdoso = $_POST['genero-idoso'] ?? '';
-    $emailIdoso = $_POST['email-idoso'] ?? '';
-    $cepIdoso = $_POST['cep-idoso'] ?? '';
-    $ruaIdoso = $_POST['rua-idoso'] ?? '';
-    $bairroIdoso = $_POST['bairro-idoso'] ?? '';
-    $estadoIdoso = $_POST['estado-idoso'] ?? '';
-    $numeroIdoso = $_POST['numero-idoso'] ?? '';
-    $complementoIdoso = $_POST['complemento-idoso'] ?? '';
-    $acompanhanteIdoso = $_POST['acompanhante-idoso'] ?? '';
-
-    // Informações do acompanhante (caso selecionado)
-    $nomeAcomp = $_POST['nome-acompanhante'] ?? '';
-    $cpfAcomp = $_POST['cpf-acompanhante'] ?? '';
-    $foneAcomp = $_POST['fone-acompanhante'] ?? '';
-    $emailAcomp = $_POST['email-acompanhante'] ?? '';
-
-    // Botões de confirmação
+    // Botões de confirmações
     $botaoContinuar = $_POST['botao-continuar'] ?? NULL;
     $botaoCancelar = $_POST['botao-cancelar'] ?? NULL;
     
-    // Verificar se o botão de cancelar não foi clicado
-    if (!isset($botaoCancelar)) {
-        // Verificar se todos os campos obrigatórios foram preenchidos
-        if (!empty($nomeIdoso) && !empty($dataNasciIdoso) && !empty($foneIdoso) && !empty($generoIdoso) && !empty($emailIdoso) && !empty($cepIdoso) && !empty($ruaIdoso) && !empty($bairroIdoso) && !empty($estadoIdoso) && !empty($numeroIdoso) && !empty($acompanhanteIdoso)) {
+    // Verificando apenas se o usuario não clicar em cancelar
+    if(!isset($botaoCancelar)){
+        // Se não clicar, verificando se  todos foram adicionados
+        if(!empty($nomeIdoso && $dataNasciIdoso && $foneIdoso && $generoIdoso && $emailIdoso && $cepIdoso && $ruaIdoso && $cidadeIdoso && $estadoIdoso && $numeroIdoso && $acompanhanteIdoso)){
 
             // Verificar e formatar CPF do idoso
             if (is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11) {
@@ -45,8 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Verificar e formatar telefone do idoso
             if (is_numeric($foneIdoso) && strlen($foneIdoso) == 11) {
                 $foneIdosoFormatado = mask($foneIdoso, "(##)#####-####");
-            } else {
-                mensagemErro("Telefone inválido (precisa conter ddd e 9 dígitos)");
+
+            } else{
+                mensagemErro("Telefone inválido (precisa conter apenas ddd e 9 digitos)");
+
             }
 
             // Verificar e formatar CEP do idoso
@@ -56,86 +65,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mensagemErro("CEP inválido (precisa conter 8 dígitos)");
             }
 
-            // Verificar e formatar caso tenha acompanhante
-            if ($acompanhanteIdoso == 'sim') {
-                if (is_numeric($cpfAcomp) && strlen($cpfAcomp) == 11) {
-                    $cpfAcompFormatado = mask($cpfAcomp, "###.###.###-##");
-                } else {
-                    mensagemErro("CPF do acompanhante inválido (precisa conter apenas 11 números)");
-                }
 
-                if (is_numeric($foneAcomp) && strlen($foneAcomp) == 11) {
-                    $foneAcompFormatado = mask($foneAcomp, "(##)#####-####");
-                } else {
-                    mensagemErro("Telefone do acompanhante inválido (precisa conter ddd e 9 dígitos)");
+            // Verificando número de residencia do idoso
+            if(!is_numeric($numeroIdoso)){
+                mensagemErro("Número inválido(Precisa conter apenas números)");
+            }
+
+            // Verificando e formatando caso tenha acompanhante
+            if($acompanhanteIdoso == 'sim'){
+                if(!empty($nomeAcomp && $cpfAcomp && $foneAcomp && $emailAcomp)){
+                    if(is_numeric($cpfAcomp) && strlen($cpfAcomp) == 11){
+                        $cpfAcompFormatado = mask($cpfAcomp, "###.###.###-##");
+                    } else{
+                        mensagemErro("CPF inválido (precisa conter apenas 11 números");
+                    }
+    
+                    if(is_numeric($foneAcomp) && strlen($foneAcomp) == 11){
+                        $foneAcompFormatado = mask($foneAcomp, "(##)#####-####");
+                    } else{
+                        mensagemErro("Telefone inválido (precisa conter ddd e 9 digitos)");
+                    }
+                } else{
+                    mensagemErro("Necessário preencher todos os campos de acompanhante");
                 }
-            } else {
+                
+            } else{ //Caso não tenha acompanhante
                 mensagemAviso('Caso tenha certeza, apenas clique em Continue');
             }
 
-            // Se tudo estiver correto, enviar os dados para registrarUsuario.php via POST
-
-            // URL para onde os dados serão enviados
-            $url = 'http://localhost/registrarUsuario.php'; // Ajuste conforme sua configuração
-
-            // Dados a serem enviados para registrarUsuario.php
-            $data = array(
-                'nomeIdoso' => $nomeIdoso,
-                'cpfIdoso' => $cpfIdoso,
-                'dataNascimentoIdoso' => $dataNasciIdoso,
-                'foneIdoso' => $foneIdoso,
-                'generoIdoso' => $generoIdoso,
-                'emailIdoso' => $emailIdoso,
-                'cepIdoso' => $cepIdoso,
-                'ruaIdoso' => $ruaIdoso,
-                'bairroIdoso' => $bairroIdoso,
-                'estadoIdoso' => $estadoIdoso,
-                'numeroIdoso' => $numeroIdoso,
-                'complementoIdoso' => $complementoIdoso,
-                'acompanhanteIdoso' => $acompanhanteIdoso,
-                'nomeAcomp' => $nomeAcomp,
-                'cpfAcomp' => $cpfAcomp,
-                'foneAcomp' => $foneAcomp,
-                'emailAcomp' => $emailAcomp
+//             $idNaoExiste = !isset($dadosDoBanco->id);
+// 
+//             if($idNaoExiste){
+//                 $_SESSION["idoso"] = [
+//                     "id" => $dadosDoBanco->id,
+//                     "nome" => $dadosDoBanco->nome,
+//                     "cpf" => $dadosDoBanco->cpf,
+//                     "dataNascimento" => $dadosDoBanco->dataNascimento,
+//                     "telefone" => $dadosDoBanco->telefone,
+//                     "genero" => $dadosDoBanco->genero,
+//                     "email" => $dadosDoBanco->email,
+//                     "acompanhante" => $dadosDoBanco->acompanhante,
+//                 ];
+//                 $_SESSION["agenda"] = [
+//                     "cep" => $dadosDoBanco->cep,
+//                     "rua" => $dadosDoBanco->rua,
+//                     "cidade" => $dadosDoBanco->cidade,
+//                     "estado" => $dadosDoBanco->estado,
+//                     "numero" => $dadosDoBanco->numero,
+//                     "complemento" => $dadosDoBanco->complemento,
+//                 ];
+//                 $_SESSION["acompanhante"] = [
+//                     "nomeAcomp" => $dadosDoBanco->nomeAcomp,
+//                     "cpfAcomp" => $dadosDoBanco->cpfAcomp,
+//                     "telefoneAcomp" => $dadosDoBanco->telefoneAcomp,
+//                     "emailAcomp" => $dadosDoBanco->emailAcomp,
+//                 ];
+//             }
+            $url = "localhost:3000/usuario";
+            $ch = curl_init($url);
+            $dadosIdosoCadastrar = array(
+                'nome' => $nomeIdoso,
+                'cpf' => $cpfIdosoFormatado,
+                'dataNascimento' => $dataNasciIdoso,
+                'telefone' => $foneIdosoFormatado,
+                'email' => $emailIdoso,
+                'senha' => null,
+                'genero' => $generoIdoso,
             );
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($dadosIdosoCadastrar),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_CUSTOMREQUEST => "POST"
+            ]);
+            $response = curl_exec($ch);
 
-            // Configuração do POST request para registrarUsuario.php
-            $options = array(
-                'http' => array(
-                    'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
-                    'method' => 'POST',
-                    'content' => http_build_query($data)
-                )
-            );
+            $data = json_decode($response);
+            echo $data->message;
+            //echo "<script>location.href='cadastrar/agendamento'</script>";
+            //exit;
+            //se tudo der certo, fazer uma busca do id no banco
+            
 
-            // Realiza o POST request para registrarUsuario.php
-            $context = stream_context_create($options);
-            $result = file_get_contents($url, false, $context);
-
-            // Verifica se a requisição foi bem-sucedida
-            if ($result === false) {
-                // Tratamento de erro ao fazer o request
-                mensagemErro("Erro ao enviar dados para registrarUsuario.php.");
-            } else {
-                // Exibe mensagem de sucesso ou redireciona para próxima etapa
-                echo "Dados enviados para registrarUsuario.php com sucesso!";
-                // Exemplo de redirecionamento após o cadastro
-                // header("Location: proxima-etapa.php");
-                // exit;
-            }
-
-        } else {
-            mensagemErro("Necessário preencher todos os campos obrigatórios.");
-        }
+        } else{
+            mensagemErro("Necessário preencher todos os campos");
+        } 
     }
 
-    // if(isset($botaoContinuar)){
-    //     echo "<script>window.location.href='cadastrar/agendamento?<?php echo htmlspecialchars(SID);'</script>";
-    //     exit;
-    // }
-    // if(isset($botaoCancelar)){
-    //     echo "<script>window.location.href='listar/vacina'</script>";
-    //     exit;
-    // }
-}
+    if(isset($botaoContinuar)){
+        //echo "<script>location.href='cadastrar/agendamento';</script>";
+        //exit;
+    }
+    if(isset($botaoCancelar)){
+        //echo "<script>location.href='listar/vacina';</script>";
+        //exit;
+    }
 ?>

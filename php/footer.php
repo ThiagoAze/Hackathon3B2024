@@ -7,6 +7,7 @@
         <p>Gustavo Passos</p>
         <p>Rodrigo Palenske</p>
         <p>Thiago Azevedo</p>
+        <p>Juan Vitor</p>
     </div>
     <nav class="menu-footer">
         <div class="row">
@@ -25,7 +26,7 @@
         </div>
     </nav>
     <div class="social">
-        <h3>Confira nosas redes sociais</h3>
+        <h3>Confira nossas redes sociais</h3>
             <ul>
                 <li>
                     <a href="http://pt-br.facebook.com/" class="icone-footer" target="_blank" rel="noopener noreferrer">

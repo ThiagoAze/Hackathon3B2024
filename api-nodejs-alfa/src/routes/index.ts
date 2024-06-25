@@ -4,6 +4,7 @@ import vaccinesRouter from "./vaccines";
 
 const router = Router();
 
-router.use("/vaccines", vaccinesRouter);
 
+router.use("/usuario", vaccinesRouter);
+    
 export default router;

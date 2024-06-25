@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col">
-                <label for="data-agend">Agende um dia de sua preferência:</label>
+                <label for="data-agenda">Agende um dia de sua preferência:</label>
                 <input type="date" name="data-agend" require id="data-agend" class="form-control" placeholder="dd/mm/aaaa">
             </div>
             <div class="col">
