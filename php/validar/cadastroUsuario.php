@@ -8,7 +8,6 @@
     $generoIdoso = $_POST['genero-idoso'] ?? NULL;
     $emailIdoso = $_POST['email-idoso'] ?? NULL;
     $acompanhanteIdoso = $_POST['acomp-idoso'] ?? NULL;
-    
 
     //codigo get:
     /*$url = "localhost:3000/php/";
@@ -19,6 +18,7 @@
     curl_close($ch);
     $data = json_decode($response);
     echo $data->message;*/
+
 
     //Endereço do idoso
     $cepIdoso = $_POST['cep-idoso'] ?? NULL;
@@ -145,6 +145,7 @@
             //exit;
             //se tudo der certo, fazer uma busca do id no banco
             
+
         } else{
             mensagemErro("Necessário preencher todos os campos");
         } 
@@ -158,5 +159,4 @@
         //echo "<script>location.href='listar/vacina';</script>";
         //exit;
     }
-
 ?>

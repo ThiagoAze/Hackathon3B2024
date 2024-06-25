@@ -4,6 +4,7 @@
 
     ?>
 <script>
+  
 //         Usar Ajax para coletar automaticamente os dados(com a API node) caso o CPF tenha 11 caracteres exista
 //         Se o CPF estiver cadastrado, buscar todos os dados mais o ID
 // 
@@ -70,6 +71,7 @@
 </script>
 
 <?php
+
         //Verificar o json e inserir no banco
     // if(!$dadosDoBanco->error){
     //         $sqlIdoso = "INSERT INTO idoso (id, nome, cpf, dataNascimento, telefone, email, genero, acompanhante) 

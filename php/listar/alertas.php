@@ -4,6 +4,7 @@
     <!-- Lista  -->
     <div class="lembretes">
         <?php
+
             // Conexão com o banco de dados
             $dsn = 'mysql:host=localhost;dbname=vacinet';
             $username = 'root';
