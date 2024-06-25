@@ -2,10 +2,13 @@ import express, { Request, Response } from 'express';
 import mysql, { Connection, FieldPacket, QueryOptions, QueryError, RowDataPacket } from 'mysql2';
 import cors from 'cors';
 
+import Routes from './routes';
 
 const app = express();
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 // Configuração do banco de dados
 const connection: Connection = mysql.createConnection({
@@ -25,20 +28,12 @@ connection.connect((err: QueryError | null) => {
 });
 
 // Rota para obter lembretes
-app.get('/vaccines', (req: Request, res: Response) => {
-    const sql = "SELECT nome, data_inicio, data_final, idade_minima, idade_maxima FROM vacina ORDER BY data_inicio DESC";
-    connection.query(sql, (error: QueryError | null, results: RowDataPacket[]) => {
-        if (error) {
-            console.error('Erro ao executar a consulta:', error.message);
-            res.status(500).send('Erro ao obter os lembretes');
-            return;
-        }
-        res.json(results);
-    });
-});
+app.use(Routes);
+
+
 
 // Porta do servidor
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor Node.js rodando na porta ${PORT}`);
+    console.log("Servidor Node.js rodando na porta ${PORT}");
 });
