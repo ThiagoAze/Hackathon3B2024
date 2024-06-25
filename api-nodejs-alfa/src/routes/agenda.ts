@@ -7,15 +7,14 @@ const agendaRouter = Router();
 agendaRouter.post("/", async (req: Request, res: Response) => {
     const agendaSalvar = req.body
     res.json(agendaSalvar)
-    knex("acompanhante")
+    knex("agenda")
       .insert(agendaSalvar)
         .then(() => {
-          console.log("Agenda salvada!")
+          console.log("Agenda salva!")
         })
         .catch(() => {
           console.log("Erro")
         })
-    
 });
 
 agendaRouter.get("/", async (req: Request, res: Response) => {

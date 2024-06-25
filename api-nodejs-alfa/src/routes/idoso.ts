@@ -2,32 +2,44 @@ import { Router, Request, Response } from "express";
 import knexInstance from "../../knexfile";
 import knex from '../database/knex'
 
-const usuarioRouter = Router();
+const idosoRouter = Router();
 
-usuarioRouter.post("/", async (req: Request, res: Response) => {
+idosoRouter.post("/", async (req: Request, res: Response) => {
   const idosoSalvar = req.body
   res.json(idosoSalvar)
     knex("idoso")
       .insert(idosoSalvar)
         .then(() => {
-          console.log("awa")
+          console.log("Idoso Cadastrado!")
         })
         .catch(() => {
           console.log("Erro")
         })
-    
 });
 
-usuarioRouter.get("/", async (req: Request, res: Response) => {
+idosoRouter.get("/", async (req: Request, res: Response) => {
   res.json({ message: 'Idoso buscado!' });
 });
 
-usuarioRouter.put("/:id", async (req: Request, res: Response) => {
+idosoRouter.get("/:cpf", async (req: Request, res: Response) => {
+  const idosoSalvar = req.body
+  res.json(idosoSalvar)
+    knex("idoso")
+      .insert(idosoSalvar).where("'cpf' = {cpf}")
+        .then(() => {
+          console.log("Idoso buscado!")
+        })
+        .catch(() => {
+          console.log("Erro")
+        })
+});
+
+idosoRouter.put("/:id", async (req: Request, res: Response) => {
   res.json({ message: 'Idoso Atualizado!' });
 });
 
-usuarioRouter.delete("/:id", async (req: Request, res: Response) => {
+idosoRouter.delete("/:id", async (req: Request, res: Response) => {
   res.json({ message: 'Idoso deletado!' });
 });
 
-export default usuarioRouter;
+export default idosoRouter;

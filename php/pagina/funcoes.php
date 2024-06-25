@@ -75,3 +75,27 @@
         <?php
         exit;
     }
+
+    function cadastroAcompanhante($nomeIdoso, $cpfIdosoFormatado, $foneIdosoFormatado, $emailIdoso){
+        // Rota POST para banco acompanhante
+            $url = "localhost:3000/acompanhante";
+            $ch = curl_init($url);
+            $dadosAcompCadastrar = array(
+                'nome' => $nomeIdoso,
+                'cpf' => $cpfIdosoFormatado,
+                'telefone' => $foneIdosoFormatado,
+                'email' => $emailIdoso,
+                'senha' => "",
+            );
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($dadosAcompCadastrar),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_CUSTOMREQUEST => "POST"
+            ]);
+            $response = curl_exec($ch);
+            print_r($response);
+            $data = json_decode($response);
+            curl_close($ch);
+    }

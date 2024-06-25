@@ -75,6 +75,58 @@
                 mensagemErro("Número inválido(Precisa conter apenas números)");
             }
 
+            //Rota POST para banco idoso
+            $url = "localhost:3000/idoso";
+            $ch = curl_init($url);
+            $dadosIdosoCadastrar = array(
+                'nome' => $nomeIdoso,
+                'cpf' => $cpfIdosoFormatado,
+                'dataNascimento' => $dataNasciIdoso,
+                'telefone' => $foneIdosoFormatado,
+                'email' => $emailIdoso,
+                'senha' => "",
+                'genero' => $generoIdoso,
+                'acompanhante' => $acompanhanteIdoso
+            );
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($dadosIdosoCadastrar),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_CUSTOMREQUEST => "POST"
+            ]);
+            $response = curl_exec($ch);
+            print_r($response);
+            $data = json_decode($response);
+            print_r($data) ;
+            curl_close($ch);
+
+            // $url = "localhost:3000/idoso/$cpfidoso";
+            // $ch = curl_init($url);
+            // $dadosIdosoCadastrar = array(
+            //     'nome' => $nomeIdoso,
+            //     'cpf' => $cpfIdosoFormatado,
+            //     'dataNascimento' => $dataNasciIdoso,
+            //     'telefone' => $foneIdosoFormatado,
+            //     'email' => $emailIdoso,
+            //     'senha' => "",
+            //     'genero' => $generoIdoso,
+            //     'acompanhante' => $acompanhanteIdoso
+            // );
+            // curl_setopt_array($ch, [
+            //     CURLOPT_RETURNTRANSFER => true,
+            //     CURLOPT_POST => true,
+            //     CURLOPT_POSTFIELDS => json_encode($dadosIdosoCadastrar),
+            //     CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+            //     CURLOPT_CUSTOMREQUEST => "POST"
+            // ]);
+            // $response = curl_exec($ch);
+            // print_r($response);
+            // $data = json_decode($response);
+            // print_r($data) ;
+            // curl_close($ch);
+
+
             // Verificando e formatando caso tenha acompanhante
             if($acompanhanteIdoso == 'sim'){
                 if(!empty($nomeAcomp && $cpfAcomp && $foneAcomp && $emailAcomp)){
@@ -89,6 +141,8 @@
                     } else{
                         mensagemErro("Telefone inválido (precisa conter ddd e 9 digitos)");
                     }
+                    
+                    cadastroAcompanhante($nomeAcomp, $cpfIdosoFormatado, $foneIdosoFormatado, $emailIdoso);
                 } else{
                     mensagemErro("Necessário preencher todos os campos de acompanhante");
                 }
@@ -100,15 +154,8 @@
 //             $idNaoExiste = !isset($dadosDoBanco->id);
 // 
 //             if($idNaoExiste){
-//                 $_SESSION["idoso"] = [
-//                     "id" => $dadosDoBanco->id,
-//                     "nome" => $dadosDoBanco->nome,
-//                     "cpf" => $dadosDoBanco->cpf,
-//                     "dataNascimento" => $dadosDoBanco->dataNascimento,
-//                     "telefone" => $dadosDoBanco->telefone,
-//                     "genero" => $dadosDoBanco->genero,
-//                     "email" => $dadosDoBanco->email,
-//                     "acompanhante" => $dadosDoBanco->acompanhante,
+//                 $_SESSION["idoso"] = [      
+//                     "cpf" => $dadosDoBanco->cpf,     
 //                 ];
 //                 $_SESSION["agenda"] = [
 //                     "cep" => $dadosDoBanco->cep,
@@ -118,48 +165,43 @@
 //                     "numero" => $dadosDoBanco->numero,
 //                     "complemento" => $dadosDoBanco->complemento,
 //                 ];
-//                 $_SESSION["acompanhante"] = [
-//                     "nomeAcomp" => $dadosDoBanco->nomeAcomp,
-//                     "cpfAcomp" => $dadosDoBanco->cpfAcomp,
-//                     "telefoneAcomp" => $dadosDoBanco->telefoneAcomp,
-//                     "emailAcomp" => $dadosDoBanco->emailAcomp,
-//                 ];
 //             }
-            $url = "localhost:3000/usuario";
-            $ch = curl_init($url);
-            $dadosIdosoCadastrar = array(
-                'nome' => $nomeIdoso,
-                'cpf' => $cpfIdosoFormatado,
-                'dataNascimento' => $dataNasciIdoso,
-                'telefone' => $foneIdosoFormatado,
-                'email' => $emailIdoso,
-                'senha' => null,
-                'genero' => $generoIdoso,
-            );
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => json_encode($dadosIdosoCadastrar),
-                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-                CURLOPT_CUSTOMREQUEST => "POST"
-            ]);
-            $response = curl_exec($ch);
 
-            $data = json_decode($response);
-            echo $data->message;
+            //Rota POST para banco agendamento
+            // $url = "localhost:3000/agenda";
+            // $ch = curl_init($url);
+            // $dadosEndereçoCadastrar = array(
+            //     'cep' => $cepIdoso,
+            //     'rua' => $ruaIdoso,
+            //     'cidade' => $cidadeIdoso,
+            //     'estado' => $estadoIdoso,
+            //     'numero' => $numeroIdoso,
+            //     'complemento' => $complementoIdoso,
+            // );
+            // curl_setopt_array($ch, [
+            //     CURLOPT_RETURNTRANSFER => true,
+            //     CURLOPT_POST => true,
+            //     CURLOPT_POSTFIELDS => json_encode($dadosEndereçoCadastrar),
+            //     CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+            //     CURLOPT_CUSTOMREQUEST => "POST"
+            // ]);
+            // $response = curl_exec($ch);
+            // $data = json_decode($response);
+            // curl_close($ch);
+
+
             //echo "<script>location.href='cadastrar/agendamento'</script>";
             //exit;
             //se tudo der certo, fazer uma busca do id no banco
             
-
         } else{
             mensagemErro("Necessário preencher todos os campos");
-        } 
+        }
     }
 
     if(isset($botaoContinuar)){
-        //echo "<script>location.href='cadastrar/agendamento';</script>";
-        //exit;
+        // echo "<script>location.href='cadastrar/agendamento';</script>";
+        // exit;
     }
     if(isset($botaoCancelar)){
         //echo "<script>location.href='listar/vacina';</script>";

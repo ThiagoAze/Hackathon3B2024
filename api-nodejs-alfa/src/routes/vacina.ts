@@ -10,7 +10,6 @@ vacinaRouter.post("/", async (req: Request, res: Response) => {
 
 vacinaRouter.get("/", async (req: Request, res: Response) => {
   res.json({ message: 'Vacina buscada!' });
-  console.log("aqui")
 });
 
 vacinaRouter.put("/:id", async (req: Request, res: Response) => {
