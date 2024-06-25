@@ -1,10 +1,10 @@
+<div class="container">
+    <h1 class="aviso">Avisos e Lembretes</h1>
 
-    <div class="container">
-        <h1 class="aviso">Avisos e Lembretes</h1>
+    <!-- Lista  -->
+    <div class="lembretes">
+        <?php
 
-        <!-- Lista  -->
-        <div class="lembretes">
-            <?php
             // Conexão com o banco de dados
             $dsn = 'mysql:host=localhost;dbname=vacinet';
             $username = 'root';
@@ -22,7 +22,7 @@
                 if (!empty($lembretes)) {
                     foreach ($lembretes as $lembrete) {
                         // Obtém a data de início da vacina do banco de dados
-                        $dataInicio = new DateTime($lembrete['data_inicio']);
+                        $dataInicio = new DateTime($lembrete['Da']);
                         // Obtém a data atual
                         $dataAtual = new DateTime();
                         // Calcula a diferença entre as datas
@@ -60,5 +60,5 @@
                 die("Erro ao conectar ao banco de dados: " . $e->getMessage());
             }
             ?>
-        </div>
     </div>
+</div>

@@ -9,6 +9,17 @@
     $emailIdoso = $_POST['email-idoso'] ?? NULL;
     $acompanhanteIdoso = $_POST['acomp-idoso'] ?? NULL;
 
+    //codigo get:
+    /*$url = "localhost:3000/php/";
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $data = json_decode($response);
+    echo $data->message;*/
+
+
     //Endereço do idoso
     $cepIdoso = $_POST['cep-idoso'] ?? NULL;
     $ruaIdoso = $_POST['rua-idoso'] ?? NULL;
@@ -108,22 +119,44 @@
 //                     "emailAcomp" => $dadosDoBanco->emailAcomp,
 //                 ];
 //             }
-            
-            echo "location.href='cadastrar/agendamento'";
-            exit;
+            $url = "localhost:3000/usuario";
+            $ch = curl_init($url);
+            $dadosIdosoCadastrar = array(
+                'nome' => $nomeIdoso,
+                'cpf' => $cpfIdosoFormatado,
+                'dataNascimento' => $dataNasciIdoso,
+                'telefone' => $foneIdosoFormatado,
+                'email' => $emailIdoso,
+                'senha' => null,
+                'genero' => $generoIdoso,
+            );
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode($dadosIdosoCadastrar),
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_CUSTOMREQUEST => "POST"
+            ]);
+            $response = curl_exec($ch);
+
+            $data = json_decode($response);
+            echo $data->message;
+            //echo "<script>location.href='cadastrar/agendamento'</script>";
+            //exit;
             //se tudo der certo, fazer uma busca do id no banco
+            
+
         } else{
             mensagemErro("Necessário preencher todos os campos");
         } 
     }
 
     if(isset($botaoContinuar)){
-        echo "<script>location.href='cadastrar/agendamento'</script>";
-        exit;
+        //echo "<script>location.href='cadastrar/agendamento';</script>";
+        //exit;
     }
     if(isset($botaoCancelar)){
-        echo "<script>location.href='listar/vacina'</script>";
-        exit;
+        //echo "<script>location.href='listar/vacina';</script>";
+        //exit;
     }
-
 ?>

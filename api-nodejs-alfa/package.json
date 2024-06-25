@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon src/server.ts",
     "dev": "nodemon",
     "migrate:make": "knex migrate:make createUsuarios",
     "migrate:rollback": "knex migrate:rollback",
@@ -40,6 +41,7 @@
     "mime-types": "^2.1.35",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
+    "mysql2": "^3.10.1",
     "pm2": "^5.3.1",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
