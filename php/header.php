@@ -1,12 +1,12 @@
 <header>
     <nav>
         <ul>
-            <li><img src="" alt="logo">Vacinet</li>
+            <li><a href="#" class="logo-header">Vacinet</a></li>
             <li>
                 <a href="listar/vacina">Calendário de vacinação</a>
             </li>
             <li>
-                <a href="listar/alerta">Alertas</a>
+                <a href="listar/alertas.php">Alertas</a>
             </li>
             <li>
                 <a href="pagina/contato">contato</a>

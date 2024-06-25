@@ -45,7 +45,7 @@ foreach ($vacinas as $vacina) {
 ?>
 <div class="vacina">
     <h4><?= $vacina['nome'] ?></h4>
-  
+    
     <p>Idade: <?= $vacina['idade_max'], " - ", $vacina['idade_min'] ?></p>
     <p>Data de Início: <?= $vacina['data_inicio'] ?></p>
     <p>Data limite: <?= $vacina['data_limite'] ?></p>
