@@ -19,7 +19,6 @@
     $data = json_decode($response);
     echo $data->message;*/
 
-
     //Endereço do idoso
     $cepIdoso = $_POST['cep-idoso'] ?? NULL;
     $ruaIdoso = $_POST['rua-idoso'] ?? NULL;
@@ -42,6 +41,13 @@
     if(!isset($botaoCancelar)){
         // Se não clicar, verificando se  todos foram adicionados
         if(!empty($nomeIdoso && $dataNasciIdoso && $foneIdoso && $generoIdoso && $emailIdoso && $cepIdoso && $ruaIdoso && $cidadeIdoso && $estadoIdoso && $numeroIdoso && $acompanhanteIdoso)){
+
+            if(!empty($dataNasciIdoso)){
+                $dataAtual = date('Y-m-d');
+                if($dataNasciIdoso > $dataAtual){
+                    mensagemErro("Coloque sua data de nascimento corretamente");   
+                }
+            }
 
             // Verificando e formatando CPF do idoso
             if(is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11){
