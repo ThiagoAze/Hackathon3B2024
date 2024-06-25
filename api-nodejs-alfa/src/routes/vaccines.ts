@@ -4,6 +4,7 @@ import knexInstance from "./../../knexfile";
 const vaccinesRouter = Router();
 
 vaccinesRouter.post("/", async (req: Request, res: Response) => {
+
   res.json({ message: 'essa rota cadastra uma vacina' });
 });
 
@@ -17,6 +18,7 @@ vaccinesRouter.put("/:id", async (req: Request, res: Response) => {
 
 vaccinesRouter.delete("/:id", async (req: Request, res: Response) => {
   res.json({ message: 'essa rota deleta uma vacina' });
+
 });
 
 export default vaccinesRouter;

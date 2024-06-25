@@ -1,5 +1,4 @@
 <?php
-
     //Informações do idoso 
     $nomeIdoso = $_POST['nome-idoso'] ?? NULL;
     $cpfIdoso = $_POST['cpf-idoso'] ?? NULL;
@@ -43,26 +42,29 @@
         // Se não clicar, verificando se  todos foram adicionados
         if(!empty($nomeIdoso && $dataNasciIdoso && $foneIdoso && $generoIdoso && $emailIdoso && $cepIdoso && $ruaIdoso && $cidadeIdoso && $estadoIdoso && $numeroIdoso && $acompanhanteIdoso)){
 
-            // Verificando e formatando CPF do idoso
-            if(is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11){
+            // Verificar e formatar CPF do idoso
+            if (is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11) {
                 $cpfIdosoFormatado = mask($cpfIdoso, "###.###.###-##");
-            } else{
-                mensagemErro("CPF inválido (precisa conter apenas 11 números");
+            } else {
+                mensagemErro("CPF inválido (precisa conter apenas 11 números)");
             }
 
-            // Verificando e formatando telefone do idoso
-            if(is_numeric($foneIdoso) && strlen($foneIdoso) == 11){
+            // Verificar e formatar telefone do idoso
+            if (is_numeric($foneIdoso) && strlen($foneIdoso) == 11) {
                 $foneIdosoFormatado = mask($foneIdoso, "(##)#####-####");
+
             } else{
                 mensagemErro("Telefone inválido (precisa conter apenas ddd e 9 digitos)");
+
             }
 
-            // Verificando e formatando CEP do idoso
-            if(is_numeric($cepIdoso) && strlen($cepIdoso) == 8){
+            // Verificar e formatar CEP do idoso
+            if (is_numeric($cepIdoso) && strlen($cepIdoso) == 8) {
                 $cepIdosoFormatado = mask($cepIdoso, "#####-###");
-            } else{
-                mensagemErro("CEP inválido (precisa conter 8 números)");
+            } else {
+                mensagemErro("CEP inválido (precisa conter 8 dígitos)");
             }
+
 
             // Verificando número de residencia do idoso
             if(!is_numeric($numeroIdoso)){
