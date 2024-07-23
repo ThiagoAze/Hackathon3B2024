@@ -49,27 +49,6 @@
                 }
             }
 
-            // Verificando e formatando CPF do idoso
-            if(is_numeric($cpfIdoso) && strlen($cpfIdoso) == 11){
-                $cpfIdosoFormatado = mask($cpfIdoso, "###.###.###-##");
-            } else{
-                mensagemErro("CPF inválido (precisa conter apenas 11 números");
-            }
-
-            // Verificando e formatando telefone do idoso
-            if(is_numeric($foneIdoso) && strlen($foneIdoso) == 11){
-                $foneIdosoFormatado = mask($foneIdoso, "(##)#####-####");
-            } else{
-                mensagemErro("Telefone inválido (precisa conter apenas ddd e 9 digitos)");
-            }
-
-            // Verificando e formatando CEP do idoso
-            if(is_numeric($cepIdoso) && strlen($cepIdoso) == 8){
-                $cepIdosoFormatado = mask($cepIdoso, "#####-###");
-            } else{
-                mensagemErro("CEP inválido (precisa conter 8 números)");
-            }
-
             // Verificando número de residencia do idoso
             if(!is_numeric($numeroIdoso)){
                 mensagemErro("Número inválido(Precisa conter apenas números)");
@@ -80,9 +59,9 @@
             $ch = curl_init($url);
             $dadosIdosoCadastrar = array(
                 'nome' => $nomeIdoso,
-                'cpf' => $cpfIdosoFormatado,
+                'cpf' => $cpfIdoso,
                 'dataNascimento' => $dataNasciIdoso,
-                'telefone' => $foneIdosoFormatado,
+                'telefone' => $foneIdoso,
                 'email' => $emailIdoso,
                 'senha' => "",
                 'genero' => $generoIdoso,
@@ -130,23 +109,10 @@
             // Verificando e formatando caso tenha acompanhante
             if($acompanhanteIdoso == 'sim'){
                 if(!empty($nomeAcomp && $cpfAcomp && $foneAcomp && $emailAcomp)){
-                    if(is_numeric($cpfAcomp) && strlen($cpfAcomp) == 11){
-                        $cpfAcompFormatado = mask($cpfAcomp, "###.###.###-##");
-                    } else{
-                        mensagemErro("CPF inválido (precisa conter apenas 11 números");
-                    }
-    
-                    if(is_numeric($foneAcomp) && strlen($foneAcomp) == 11){
-                        $foneAcompFormatado = mask($foneAcomp, "(##)#####-####");
-                    } else{
-                        mensagemErro("Telefone inválido (precisa conter ddd e 9 digitos)");
-                    }
-                    
                     cadastroAcompanhante($nomeAcomp, $cpfIdosoFormatado, $foneIdosoFormatado, $emailIdoso);
                 } else{
                     mensagemErro("Necessário preencher todos os campos de acompanhante");
                 }
-                
             } else{ //Caso não tenha acompanhante
                 mensagemAviso('Caso tenha certeza, apenas clique em Continue');
             }
@@ -200,8 +166,8 @@
     }
 
     if(isset($botaoContinuar)){
-        // echo "<script>location.href='cadastrar/agendamento';</script>";
-        // exit;
+        echo "<script>location.href='cadastrar/agendamento';</script>";
+        exit;
     }
     if(isset($botaoCancelar)){
         //echo "<script>location.href='listar/vacina';</script>";

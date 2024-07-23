@@ -1,10 +1,13 @@
-<?php
-    //os dados serão trazidos em json
-
-
-    ?>
 <script>
-  
+    $(document).ready(function(){
+        $("#cpf-idoso").mask("000.000.000-00")
+        $('#telefone-idoso').mask('(00)00000-0000');
+        $('#cep-idoso').mask('00000-000');
+        $('#cpf-acomp').mask('000.000.000-00');
+        $('#fone-acomp').mask('(00)00000-0000');
+    })
+</script>
+<script>
 //         Usar Ajax para coletar automaticamente os dados(com a API node) caso o CPF tenha 11 caracteres exista
 //         Se o CPF estiver cadastrado, buscar todos os dados mais o ID
 // 
@@ -117,7 +120,7 @@
             <div class="col">
                 <label for="cpf-idoso">CPF: <strong>(Priorize-o caso já tenha se cadastrado)</strong></label>
                 <input type="text" name="cpf-idoso" require id="cpf-idoso" class="form-control"
-                    value="<?=$dadosDoBanco->cpf ?? NULL?>" placeholder="999.999.999-99">
+                    value="" placeholder="999.999.999-99">
             </div>
             <div class="col">
                 <label for="data-nasci-idoso">Data de Nascimento:</label>
